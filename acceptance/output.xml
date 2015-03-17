@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 2.8.7 (Jython 2.5.3 on java1.8.0_40)" generated="20150316 11:01:27.644">
+<suite source="C:\Users\revok_000\Documents\GitHub\ArgParser_Group3\acceptance\ArgumentParserTests.txt" name="ArgumentParserTests" id="s1">
+<test name="Start Program With Arguments" id="s1-t1">
+<kw type="kw" name="7">
+<doc></doc>
+<arguments>
+<arg>5</arg>
+<arg>2</arg>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:28.681">No keyword with name '7' found.</msg>
+<status endtime="20150316 11:01:28.683" starttime="20150316 11:01:28.670" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:28.688" starttime="20150316 11:01:28.610" status="FAIL">No keyword with name '7' found.</status>
+</test>
+<test name="Start First Test" id="s1-t2">
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:28.707" starttime="20150316 11:01:28.696" status="FAIL">Test case contains no keywords.</status>
+</test>
+<test name="${length}=" id="s1-t3">
+<kw type="kw" name="ArgumentParserKeywords.Get Length">
+<doc></doc>
+<arguments>
+</arguments>
+<msg level="WARN" timestamp="20150316 11:01:28.722">Keyword 'Get Length' found both from a custom test library 'ArgumentParserKeywords' and a standard library 'BuiltIn'. The custom keyword is used. To select explicitly, and to get rid of this warning, use either 'ArgumentParserKeywords.Get Length' or 'BuiltIn.Get Length'.</msg>
+<msg level="FAIL" timestamp="20150316 11:01:28.754">NullPointerException</msg>
+<status endtime="20150316 11:01:28.756" starttime="20150316 11:01:28.723" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:28.760" starttime="20150316 11:01:28.714" status="FAIL">NullPointerException</status>
+</test>
+<test name="Should Be Equal" id="s1-t4">
+<kw type="kw" name="7">
+<doc></doc>
+<arguments>
+<arg>${length}</arg>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:28.793">No keyword with name '7' found.</msg>
+<status endtime="20150316 11:01:28.795" starttime="20150316 11:01:28.789" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:28.798" starttime="20150316 11:01:28.765" status="FAIL">No keyword with name '7' found.</status>
+</test>
+<test name="${width}=" id="s1-t5">
+<kw type="kw" name="ArgumentParserKeywords.Get Width">
+<doc></doc>
+<arguments>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:28.828">NullPointerException</msg>
+<status endtime="20150316 11:01:28.830" starttime="20150316 11:01:28.810" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:28.833" starttime="20150316 11:01:28.803" status="FAIL">NullPointerException</status>
+</test>
+<test name="Should Be Equal" id="s1-t6">
+<kw type="kw" name="5">
+<doc></doc>
+<arguments>
+<arg>${width}</arg>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:28.873">No keyword with name '5' found.</msg>
+<status endtime="20150316 11:01:28.875" starttime="20150316 11:01:28.869" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:28.880" starttime="20150316 11:01:28.841" status="FAIL">No keyword with name '5' found.</status>
+</test>
+<test name="${height}=" id="s1-t7">
+<kw type="kw" name="ArgumentParserKeywords.Get Height">
+<doc></doc>
+<arguments>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:28.924">NullPointerException</msg>
+<status endtime="20150316 11:01:28.926" starttime="20150316 11:01:28.900" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:28.929" starttime="20150316 11:01:28.889" status="FAIL">NullPointerException</status>
+</test>
+<test name="Should Be Equal" id="s1-t8">
+<kw type="kw" name="2">
+<doc></doc>
+<arguments>
+<arg>${height}</arg>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:28.964">No keyword with name '2' found.</msg>
+<status endtime="20150316 11:01:28.965" starttime="20150316 11:01:28.961" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:28.968" starttime="20150316 11:01:28.938" status="FAIL">No keyword with name '2' found.</status>
+</test>
+<test name="Start Program With Arguments" id="s1-t9">
+<kw type="kw" name="dog">
+<doc></doc>
+<arguments>
+<arg>2</arg>
+<arg>true</arg>
+<arg>3.5</arg>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:29.011">No keyword with name 'dog' found. Did you mean:
+    BuiltIn.Log</msg>
+<status endtime="20150316 11:01:29.014" starttime="20150316 11:01:29.008" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:29.018" starttime="20150316 11:01:28.977" status="FAIL">No keyword with name 'dog' found. Did you mean:
+    BuiltIn.Log</status>
+</test>
+<test name="Start Second Test" id="s1-t10">
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:29.035" starttime="20150316 11:01:29.027" status="FAIL">Test case contains no keywords.</status>
+</test>
+<test name="${pet}=" id="s1-t11">
+<kw type="kw" name="ArgumentParserKeywords.Get Pet">
+<doc></doc>
+<arguments>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:29.064">NullPointerException</msg>
+<status endtime="20150316 11:01:29.065" starttime="20150316 11:01:29.051" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:29.068" starttime="20150316 11:01:29.042" status="FAIL">NullPointerException</status>
+</test>
+<test name="Should Be Equal" id="s1-t12">
+<kw type="kw" name="dog">
+<doc></doc>
+<arguments>
+<arg>${pet}</arg>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:29.113">No keyword with name 'dog' found. Did you mean:
+    BuiltIn.Log</msg>
+<status endtime="20150316 11:01:29.115" starttime="20150316 11:01:29.110" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:29.118" starttime="20150316 11:01:29.078" status="FAIL">No keyword with name 'dog' found. Did you mean:
+    BuiltIn.Log</status>
+</test>
+<test name="${number}=" id="s1-t13">
+<kw type="kw" name="ArgumentParserKeywords.Get Number">
+<doc></doc>
+<arguments>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:29.148">NullPointerException</msg>
+<status endtime="20150316 11:01:29.150" starttime="20150316 11:01:29.135" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:29.153" starttime="20150316 11:01:29.126" status="FAIL">NullPointerException</status>
+</test>
+<test name="Should Be Equal" id="s1-t14">
+<kw type="kw" name="2">
+<doc></doc>
+<arguments>
+<arg>${number}</arg>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:29.221">No keyword with name '2' found.</msg>
+<status endtime="20150316 11:01:29.223" starttime="20150316 11:01:29.216" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:29.226" starttime="20150316 11:01:29.171" status="FAIL">No keyword with name '2' found.</status>
+</test>
+<test name="${rainy}=" id="s1-t15">
+<kw type="kw" name="ArgumentParserKeywords.Get Rainy">
+<doc></doc>
+<arguments>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:29.257">NullPointerException</msg>
+<status endtime="20150316 11:01:29.259" starttime="20150316 11:01:29.242" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:29.263" starttime="20150316 11:01:29.233" status="FAIL">NullPointerException</status>
+</test>
+<test name="Should Be Equal" id="s1-t16">
+<kw type="kw" name="true">
+<doc></doc>
+<arguments>
+<arg>${rainy}</arg>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:29.295">No keyword with name 'true' found.</msg>
+<status endtime="20150316 11:01:29.297" starttime="20150316 11:01:29.293" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:29.300" starttime="20150316 11:01:29.272" status="FAIL">No keyword with name 'true' found.</status>
+</test>
+<test name="${bathrooms}=" id="s1-t17">
+<kw type="kw" name="ArgumentParserKeywords.Get Bathrooms">
+<doc></doc>
+<arguments>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:29.342">NullPointerException</msg>
+<status endtime="20150316 11:01:29.345" starttime="20150316 11:01:29.319" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:29.348" starttime="20150316 11:01:29.310" status="FAIL">NullPointerException</status>
+</test>
+<test name="Should Be Equal" id="s1-t18">
+<kw type="kw" name="3.5">
+<doc></doc>
+<arguments>
+<arg>${bathrooms}</arg>
+</arguments>
+<msg level="FAIL" timestamp="20150316 11:01:29.392">No keyword with name '3.5' found.</msg>
+<status endtime="20150316 11:01:29.394" starttime="20150316 11:01:29.389" status="FAIL"></status>
+</kw>
+<doc></doc>
+<tags>
+</tags>
+<status critical="yes" endtime="20150316 11:01:29.399" starttime="20150316 11:01:29.357" status="FAIL">No keyword with name '3.5' found.</status>
+</test>
+<doc></doc>
+<metadata>
+</metadata>
+<status endtime="20150316 11:01:29.425" starttime="20150316 11:01:27.652" status="FAIL"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="18">Critical Tests</stat>
+<stat pass="0" fail="18">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="18" name="ArgumentParserTests" id="s1">ArgumentParserTests</stat>
+</suite>
+</statistics>
+<errors>
+<msg level="WARN" timestamp="20150316 11:01:28.722">Keyword 'Get Length' found both from a custom test library 'ArgumentParserKeywords' and a standard library 'BuiltIn'. The custom keyword is used. To select explicitly, and to get rid of this warning, use either 'ArgumentParserKeywords.Get Length' or 'BuiltIn.Get Length'.</msg>
+<msg level="WARN" timestamp="20150316 11:01:28.839">Multiple test cases with name 'Should Be Equal' executed in test suite 'ArgumentParserTests'.</msg>
+<msg level="WARN" timestamp="20150316 11:01:28.936">Multiple test cases with name 'Should Be Equal' executed in test suite 'ArgumentParserTests'.</msg>
+<msg level="WARN" timestamp="20150316 11:01:28.975">Multiple test cases with name 'Start Program With Arguments' executed in test suite 'ArgumentParserTests'.</msg>
+<msg level="WARN" timestamp="20150316 11:01:29.077">Multiple test cases with name 'Should Be Equal' executed in test suite 'ArgumentParserTests'.</msg>
+<msg level="WARN" timestamp="20150316 11:01:29.161">Multiple test cases with name 'Should Be Equal' executed in test suite 'ArgumentParserTests'.</msg>
+<msg level="WARN" timestamp="20150316 11:01:29.270">Multiple test cases with name 'Should Be Equal' executed in test suite 'ArgumentParserTests'.</msg>
+<msg level="WARN" timestamp="20150316 11:01:29.355">Multiple test cases with name 'Should Be Equal' executed in test suite 'ArgumentParserTests'.</msg>
+</errors>
+</robot>
