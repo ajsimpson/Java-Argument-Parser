@@ -4,6 +4,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ArgumentParserTest {
 
@@ -17,35 +18,35 @@ public class ArgumentParserTest {
 	@Test
 	public void testGetDescriptionOfOptionalArgument() {
 		p.addOptionalArgument("Type");
-		p.addOptionalArgumentDescription("Type","This is Type's description.");
+		p.addOptionalArgumentDescription("Type", "This is Type's description.");
 		assertEquals("This is Type's description.", p.getOptionalArgumentDescription("Type"));
 	}
 	
 	@Test
 	public void testGetPositionalArgument() {
 		p.addPositionalArgument("length");
-		p.addPositionalArgumentValue("length", "7", "INTEGER");
+		p.addPositionalArgumentValue("length", "7", Argument.DataType.INTEGER);
 		assertEquals("7", p.getPositionalArgument("length"));
 	}
 	
 	@Test
 	public void testGetOptionalArgument() {
 		p.addOptionalArgument("age");
-		p.addOptionalArgumentValue("age", "7", "INTEGER");
+		p.addOptionalArgumentValue("age", "7", Argument.DataType.INTEGER);
 		assertEquals("7", p.getOptionalArgument("age"));
 	}
 	
 	@Test
 	public void testGetArgumentValue() {
 		p.addPositionalArgument("length");
-		p.addPositionalArgumentValue("length", "7", "INTEGER");
+		p.addPositionalArgumentValue("length", "7", Argument.DataType.INTEGER);
 		assertEquals("7", p.getPositionalArgumentValue("length"));
 	}
 	
 	@Test
 	public void testGetOptionalValue() {
 		p.addOptionalArgument("type");
-		p.addOptionalArgumentValue("type", "box", "STRING");
+		p.addOptionalArgumentValue("type", "box", Argument.DataType.STRING);
 		assertEquals("box", p.getOptionalArgumentValue("type"));
 	}
 	
@@ -59,7 +60,7 @@ public class ArgumentParserTest {
 	@Test
 	public void testIfOptionalArgumentIsPresent() {
 		p.addOptionalArgument("color");
-		p.addOptionalArgumentValue("color", "red", "STRING");
+		p.addOptionalArgumentValue("color", "red", Argument.DataType.STRING);
 		ArrayList<String> userInput = new ArrayList<>();
 		userInput.add("--color");
 		userInput.add("purple");
@@ -70,7 +71,7 @@ public class ArgumentParserTest {
 	@Test
 	public void testUseShortNameInput() {
 		p.addOptionalArgument("color");
-		p.addOptionalArgumentValue("color", "red", "STRING");
+		p.addOptionalArgumentValue("color", "red", Argument.DataType.STRING);
 		ArrayList<String> userInput = new ArrayList<>();
 		userInput.add("-c");
 		userInput.add("purple");
@@ -81,7 +82,7 @@ public class ArgumentParserTest {
 	@Test
 	public void testIfOptionalArgumentShortNameIsPresent() {
 		p.addOptionalArgument("color");
-		p.addOptionalArgumentValue("color", "red", "STRING");
+		p.addOptionalArgumentValue("color", "red", Argument.DataType.STRING);
 		ArrayList<String> userInput = new ArrayList<>();
 		userInput.add("-c");
 		userInput.add("purple");
@@ -92,7 +93,7 @@ public class ArgumentParserTest {
 	@Test
 	public void testGetUnknownShortName() {
 		p.addOptionalArgument("color");
-		p.addOptionalArgumentValue("color", "red", "STRING");
+		p.addOptionalArgumentValue("color", "red", Argument.DataType.STRING);
 		ArrayList<String> userInput = new ArrayList<>();
 		userInput.add("-f");
 		userInput.add("purple");
@@ -110,10 +111,10 @@ public class ArgumentParserTest {
 		p.addPositionalArgument("width");
 		p.addPositionalArgument("cat");
 		p.addPositionalArgument("rain");
-		p.addPositionalArgumentValue("length", "7", "INTEGER");
-		p.addPositionalArgumentValue("width", "5.2", "FLOAT");
-		p.addPositionalArgumentValue("cat", "white cat", "STRING");
-		p.addPositionalArgumentValue("rain", "true", "BOOLEAN");
+		p.addPositionalArgumentValue("length", "7", Argument.DataType.INTEGER);
+		p.addPositionalArgumentValue("width", "5.2", Argument.DataType.FLOAT);
+		p.addPositionalArgumentValue("cat", "white cat", Argument.DataType.STRING);
+		p.addPositionalArgumentValue("rain", "true", Argument.DataType.BOOLEAN);
 		assertEquals("7", p.getPositionalArgument("length"));
 		assertEquals("5.2", p.getPositionalArgument("width"));
 		assertEquals("white cat", p.getPositionalArgument("cat"));
@@ -122,10 +123,10 @@ public class ArgumentParserTest {
 	
 	@Test
 	public void testGetDifferentOptionalArgumentValues() {
-		p.addOptionalArgumentValue("type", "5.2", "FLOAT");
-		p.addOptionalArgumentValue("color", "red", "STRING");
-		p.addOptionalArgumentValue("art", "3", "INTEGER");
-		p.addOptionalArgumentValue("shape", "true", "BOOLEAN");
+		p.addOptionalArgumentValue("type", "5.2", Argument.DataType.FLOAT);
+		p.addOptionalArgumentValue("color", "red", Argument.DataType.STRING);
+		p.addOptionalArgumentValue("art", "3", Argument.DataType.INTEGER);
+		p.addOptionalArgumentValue("shape", "true", Argument.DataType.BOOLEAN);
 		assertEquals("5.2", p.getOptionalArgument("type"));
 		assertEquals("red", p.getOptionalArgument("color"));
 		assertEquals("3", p.getOptionalArgument("art"));
@@ -185,7 +186,7 @@ public class ArgumentParserTest {
 	@Test
 	public void testUnknownArgumentException() {
 		p.addOptionalArgument("type");
-		p.addOptionalArgumentValue("type","sphere","STRING");
+		p.addOptionalArgumentValue("type", "sphere", Argument.DataType.STRING);
 		ArrayList<String> userInput = new ArrayList<>();
 		userInput.add("type");
 		userInput.add("sphere");
@@ -198,14 +199,14 @@ public class ArgumentParserTest {
 		}
 	}
 	
-	@Test
+	/*@Test
 	public void testCheckForInvalidArguments() {
 		try{
-		p.addOptionalArgumentValue("symbol", "/-*", "INTEGER");
+		p.addOptionalArgumentValue("symbol", "/-*", Argument.DataType.DOUBLE);
 		} catch(InvalidArgumentException e) {
 			assertTrue(true);
 		}
-	}
+	}*/
 	
 	@Test
 	public void testShowHelp() {
@@ -215,8 +216,8 @@ public class ArgumentParserTest {
 	@Test
 	public void testGetArgumentDataType() {
 		p.addOptionalArgument("age");
-		p.addOptionalArgumentValue("age", "7", "INTEGER");
-		p.setOptionalArgumentType("age", "FLOAT");
-		assertEquals("FLOAT", p.getOptionalArgumentType("age"));
+		p.addOptionalArgumentValue("age", "7", Argument.DataType.INTEGER);
+		p.setOptionalArgumentType("age", Argument.DataType.FLOAT);
+		assertEquals(Argument.DataType.FLOAT, p.getOptionalArgumentType("age"));
 	}
 }

@@ -1,13 +1,15 @@
 package edu.jsu.mcis;
 
+import java.util.ArrayList;
+
 public class Argument {
 
-	private enum DataType {STRING, FLOAT, INT, BOOLEAN};
-
 	public String name = "";
-	public String value = "";
+ 	public String value = "";
 	public String info = "";
-	public String type = "";
+	public Datatype type = Datatype.STRING;
+	public enum Datatype {STRING, FLOAT, INTEGER, BOOLEAN};
+	public ArrayList<String> choices = new ArrayList<>();
 	
 	String getName(){
 		return name;
@@ -29,11 +31,21 @@ public class Argument {
 		return info;
 	}
 	
-	void setDataType(String d) {
+	void setDatatype(Datatype d) {
 		type = d;
 	}
 	
-	String getDataType() {
+	Datatype getDatatype() {
 		return type;
+	}
+	
+	void setChoice(String c) {
+		choices.add(c);
+	}
+	
+	void getChoices() {
+		for(int i=0; i<choices.size(); i++) {
+			System.out.println(choices.get(i));
+		}
 	}
 }

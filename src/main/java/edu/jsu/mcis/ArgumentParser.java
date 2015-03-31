@@ -5,10 +5,16 @@ import java.util.HashMap;
 
 public class ArgumentParser {
 	
-    private HashMap<String, PositionalArgument> positionalArguments = new HashMap<>();
-    private HashMap<String, OptionalArgument> optionalArguments = new HashMap<>();
-	private HashMap<String, String> optionalArgumentShortNames = new HashMap<>();
+    private HashMap<String, PositionalArgument> positionalArguments;
+    private HashMap<String, OptionalArgument> optionalArguments;
+	private HashMap<String, String> optionalArgumentShortNames;
     
+	public ArgumentParser() {
+		positionalArguments = new HashMap<>();
+		optionalArguments = new HashMap<>();
+		optionalArgumentShortNames = new HashMap<>();
+	}
+	
     public void addPositionalArgument(String name) {
         positionalArguments.put(name, new PositionalArgument(name));
     }
@@ -19,18 +25,18 @@ public class ArgumentParser {
 		optionalArgumentShortNames.put(shortName, name);
     }
 	
-    public void addPositionalArgumentValue(String name, String value, String type) {
+    public void addPositionalArgumentValue(String name, String value, Argument.Datatype type) {
         PositionalArgument temp = new PositionalArgument(name);
         temp.setValue(value);
-        temp.setDataType(type);
+        temp.setDatatype(type);
         positionalArguments.put(name,temp);
     }
     
-    public void addOptionalArgumentValue(String name, String value, String type) {
+    public void addOptionalArgumentValue(String name, String value, Argument.Datatype type) {
         OptionalArgument temp = new OptionalArgument(name);
         temp.setValue(value);
-        temp.setDataType(type);
-		if(type != "STRING") {
+        temp.setDatatype(type);
+		if(type != Argument.Datatype.STRING) {
 			checkForInvalidArguments(value);
 		}
         optionalArguments.put(name, temp);
@@ -74,35 +80,50 @@ public class ArgumentParser {
 		return temp.getFlag();
 	}
 	
-	public void setOptionalArgumentType(String name, String type) {
+	public void setOptionalArgumentType(String name, Argument.Datatype type) {
         OptionalArgument temp = new OptionalArgument(name);
         temp = optionalArguments.get(name);
-		temp.setDataType(type);
+		temp.setDatatype(type);
 		optionalArguments.put(name, temp);
 	}
 	
-	public String getOptionalArgumentType(String name) {
+	public Argument.Datatype getOptionalArgumentType(String name) {
         OptionalArgument temp = new OptionalArgument(name);
         temp = optionalArguments.get(name);
-		return temp.getDataType();
+		return temp.getDatatype();
 	}
 	
+	//CREATE METHOD TO GET AND SET RESTRICTED CHOICES FOR ARGUMENT
+	public void setChoice(String n, String c) {
+		OptionalArgument temp = new OptionalArgument(n);
+		temp = optionalArguments.get(n);
+		temp.setChoice(c);
+		optionalArguments.put(n, temp);
+	}
+	
+	public void getChoices(String name) {
+		OptionalArgument temp = new OptionalArgument(name);
+		temp = optionalArguments.get(name);
+		temp.getChoices();
+	}
+		
+		
 	@SuppressWarnings("unchecked")
     public <T> T getPositionalArgument(String name) {
 		Object v = 0f;
         PositionalArgument temp = new PositionalArgument(name);
         temp = positionalArguments.get(name);
         if(null != temp.type) switch (temp.type) {
-            case "INTEGER":
+            case INTEGER:
                 v = Integer.parseInt(temp.value);
                 parsePositionalArgumentInt(name);
-            case "FLOAT":
+            case FLOAT:
                 v = Float.parseFloat(temp.value);
                 parsePositionalArgumentFloat(name);
-            case "BOOLEAN":
+            case BOOLEAN:
                 v = Boolean.parseBoolean(temp.value);
                 parsePositionalArgumentBoolean(name);
-            case "STRING":
+            case STRING:
                 v = temp.value;
         }
         return (T) v;
@@ -114,16 +135,16 @@ public class ArgumentParser {
         OptionalArgument temp = new OptionalArgument(name);
         temp = optionalArguments.get(name);
         if(null != temp.type) switch (temp.type) {
-            case "INTEGER":
+            case INTEGER:
                 v = Integer.parseInt(temp.value);
                 parseOptionalArgumentInt(name);
-            case "FLOAT":
+            case FLOAT:
                 v = Float.parseFloat(temp.value);
                 parseOptionalArgumentFloat(name);
-            case "BOOLEAN":
+            case BOOLEAN:
                 v = Boolean.parseBoolean(temp.value);
                 parseOptionalArgumentBoolean(name);
-            case "STRING":
+            case STRING:
                 v = temp.value;
         }
         return (T) v;

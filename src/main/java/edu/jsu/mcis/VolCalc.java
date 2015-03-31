@@ -11,13 +11,13 @@ public class VolCalc {
 		userInput.addAll(Arrays.asList(args));
 		
         p.addOptionalArgument("color");
-        p.addOptionalArgumentValue("color", "red", "STRING");
+        p.addOptionalArgumentValue("color", "red", Argument.Datatype.STRING);
 		p.addOptionalArgumentDescription("color", "color's value is a string.");
         p.addOptionalArgument("age");
-        p.addOptionalArgumentValue("age", "22", "INTEGER");
+        p.addOptionalArgumentValue("age", "22", Argument.Datatype.INTEGER);
 		p.addOptionalArgumentDescription("age", "age's value is an integer.");
         p.addOptionalArgument("weight");
-        p.addOptionalArgumentValue("weight", "160.5", "FLOAT");
+        p.addOptionalArgumentValue("weight", "160.5", Argument.Datatype.FLOAT);
 		p.addOptionalArgumentDescription("weight", "weight's value is a float.");
 		
 		//p.addOptionalArgumentValue("weight", "16076543", "INTEGER");
