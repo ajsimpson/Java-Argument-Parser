@@ -9,6 +9,7 @@ public class Argument {
 	public String info = "";
 	public Datatype type = Datatype.STRING;
 	public enum Datatype {STRING, FLOAT, INTEGER, BOOLEAN};
+	public boolean restrictedValues = false;
 	public ArrayList<String> choices = new ArrayList<>();
 	
 	String getName(){
@@ -39,13 +40,29 @@ public class Argument {
 		return type;
 	}
 	
-	void setChoice(String c) {
+	void addChoice(String c) {
 		choices.add(c);
 	}
 	
-	void getChoices() {
-		for(int i=0; i<choices.size(); i++) {
-			System.out.println(choices.get(i));
+	ArrayList<String> getChoices() {
+		return choices;
+	}
+
+	void setRestrictedValues(boolean r) {
+		restrictedValues = r;
+	}
+	
+	boolean hasRestrictedValues() {
+		return restrictedValues;
+	}
+	
+	void isRestrictedValue(String v) {
+		if(restrictedValues) {
+		boolean found = false;
+		if(choices.contains(v))
+			found = true;
+		else
+			throw new RestrictedValueException("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: value not allowed: " + v);
 		}
 	}
 }

@@ -13,6 +13,7 @@ public class VolCalc {
         p.addOptionalArgument("color");
         p.addOptionalArgumentValue("color", "red", Argument.Datatype.STRING);
 		p.addOptionalArgumentDescription("color", "color's value is a string.");
+		p.addChoice("color", "blue");
         p.addOptionalArgument("age");
         p.addOptionalArgumentValue("age", "22", Argument.Datatype.INTEGER);
 		p.addOptionalArgumentDescription("age", "age's value is an integer.");

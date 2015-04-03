@@ -34,6 +34,7 @@ public class ArgumentParser {
     
     public void addOptionalArgumentValue(String name, String value, Argument.Datatype type) {
         OptionalArgument temp = new OptionalArgument(name);
+		temp.addChoice(value);
         temp.setValue(value);
         temp.setDatatype(type);
 		if(type != Argument.Datatype.STRING) {
@@ -92,13 +93,13 @@ public class ArgumentParser {
         temp = optionalArguments.get(name);
 		return temp.getDatatype();
 	}
-	
-	//CREATE METHOD TO GET AND SET RESTRICTED CHOICES FOR ARGUMENT
-	public void setChoice(String n, String c) {
-		OptionalArgument temp = new OptionalArgument(n);
-		temp = optionalArguments.get(n);
-		temp.setChoice(c);
-		optionalArguments.put(n, temp);
+
+	public void addChoice(String name, String choice) {
+		OptionalArgument temp = new OptionalArgument(name);
+		temp = optionalArguments.get(name);
+		temp.setRestrictedValues(true);
+		temp.addChoice(choice);
+		optionalArguments.put(name, temp);
 	}
 	
 	public void getChoices(String name) {
@@ -106,7 +107,6 @@ public class ArgumentParser {
 		temp = optionalArguments.get(name);
 		temp.getChoices();
 	}
-		
 		
 	@SuppressWarnings("unchecked")
     public <T> T getPositionalArgument(String name) {
@@ -205,6 +205,7 @@ public class ArgumentParser {
 				}
 				temp.setFlag(true);
 				temp.setValue(input.get(i+1));
+				temp.isRestrictedValue(input.get(i+1));
 				optionalArguments.put(argument, temp);
 				input.set(i, "");
 				input.set(i+1, "");
@@ -217,6 +218,7 @@ public class ArgumentParser {
 					temp = optionalArguments.get(name);
 					temp.setFlag(true);
 					temp.setValue(input.get(i+1));
+					temp.isRestrictedValue(input.get(i+1));
 					optionalArguments.put(name, temp);
 					input.set(i, "");
 					input.set(i+1, "");
