@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<parser>
+	<arguments>
+		<argument>
+			<name>length</name>
+			<value>4</value>
+			<description>how long an object is</description>
+		</argument>
+		
+		<argument>
+			<name>width</name>
+			<value>5</value>
+			<description>how wide an object is</description>
+		</argument>
+		
+		<argument>
+			<name>length</name>
+			<value>6</value>
+			<description>how tall an object is</description>
+		</argument>
+	</arguments>
+</parser>

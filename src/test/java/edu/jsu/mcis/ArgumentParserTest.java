@@ -90,19 +90,14 @@ public class ArgumentParserTest {
 		assertEquals(true, p.getFlag("color"));
 	}
 	
-	@Test
+	@Test (expected = UnknownArgumentException.class)
 	public void testGetUnknownShortName() {
 		p.addOptionalArgument("color");
 		p.addOptionalArgumentValue("color", "red", Argument.Datatype.STRING);
 		ArrayList<String> userInput = new ArrayList<>();
 		userInput.add("-f");
 		userInput.add("purple");
-		try{
 		p.parse(userInput);
-		} catch
-		(UnknownArgumentException e) {
-			assertTrue(true);
-		}
 	}
 	
 	@Test
@@ -133,7 +128,7 @@ public class ArgumentParserTest {
 		assertEquals("true", p.getOptionalArgument("shape"));
 	}
 	
-	@Test
+	@Test (expected = MissingArgumentException.class)
 	public void testMissingArgumentException() {
 		p.addPositionalArgument("length");
 		p.addPositionalArgument("width");
@@ -141,15 +136,10 @@ public class ArgumentParserTest {
 		ArrayList<String> userInput = new ArrayList<>();
 		userInput.add("7");
 		userInput.add("5");
-		try{
 		p.parse(userInput);
-		} catch
-		(MissingArgumentException e) {
-			assertTrue(true);
-		}
 	}
 	
-	@Test
+	@Test (expected = InvalidArgumentException.class)
 	public void testInvalidArgumentException() {
 		p.addPositionalArgument("length");
 		p.addPositionalArgument("width");
@@ -158,15 +148,10 @@ public class ArgumentParserTest {
 		userInput.add("7");
 		userInput.add("something");
 		userInput.add("2");
-		try{
 		p.parse(userInput);
-		} catch
-		(InvalidArgumentException e) {
-			assertTrue(true);
-		}
 	}
 	
-	@Test
+	@Test (expected = UnrecognisedArgumentException.class)
 	public void testUnrecognisedArgumentException() {
 		p.addPositionalArgument("length");
 		p.addPositionalArgument("width");
@@ -176,14 +161,10 @@ public class ArgumentParserTest {
 		userInput.add("5");
 		userInput.add("2");
 		userInput.add("4");
-		try{
-			p.parse(userInput);
-		} catch(UnrecognisedArgumentException e) {
-			assertTrue(true);
-		}
+		p.parse(userInput);
 	}
 	
-	@Test
+	@Test (expected = UnknownArgumentException.class)
 	public void testUnknownArgumentException() {
 		p.addOptionalArgument("type");
 		p.addOptionalArgumentValue("type", "sphere", Argument.Datatype.STRING);
@@ -192,35 +173,36 @@ public class ArgumentParserTest {
 		userInput.add("sphere");
 		userInput.add("--color");
 		userInput.add("purple");
-		try{
-			p.parse(userInput);
-		} catch(UnknownArgumentException e) {
-			assertTrue(true);
-		}
+		p.parse(userInput);
 	}
 	
 	
-	/*@Test
-	public void testGetChoice(){
-		p.getChoices("hi");
-		assertEquals(p.getChoices("hi"), "hi");
-	
-	}
 	@Test
-	public void testCheckForInvalidArguments() {
-		try{
-		p.addOptionalArgumentValue("symbol", "/-*", Argument.Datatype.DOUBLE);
-		} catch(InvalidArgumentException e) {
-			assertTrue(true);
-		}
+	public void testAddChoice() {
+		p.addOptionalArgument("color");
+		p.addOptionalArgumentValue("color", "red", Argument.Datatype.STRING);
+		p.addChoice("color", "blue");
+		assert(p.optionalArguments.get("color").choices.contains("blue"));
+	}
+	
+	@Test (expected = RestrictedValueException.class)
+	public void testRestrictedValueException() {
+		p.addOptionalArgument("color");
+		p.addOptionalArgumentValue("color", "red", Argument.Datatype.STRING);
+		p.addChoice("color", "blue");
+		ArrayList<String> userInput = new ArrayList<>();
+		userInput.add("7");
+		userInput.add("5");
+		userInput.add("2");
+		userInput.add("--color");
+		userInput.add("pink");
+		p.parse(userInput);
 	}
 	
 	@Test
 	public void testShowHelp() {
 		assertEquals("\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box", p.showHelp());
 	}
-	*/
-	
 	
 	@Test
 	public void testGetArgumentDataType() {
@@ -228,5 +210,30 @@ public class ArgumentParserTest {
 		p.addOptionalArgumentValue("age", "7", Argument.Datatype.INTEGER);
 		p.setOptionalArgumentType("age", Argument.Datatype.FLOAT);
 		assertEquals(Argument.Datatype.FLOAT, p.getOptionalArgumentType("age"));
+	}
+	
+	@Test
+	public void testGetChoices() {
+		p.addOptionalArgument("color");
+		p.addOptionalArgumentValue("color", "red", Argument.Datatype.STRING);
+		p.addChoice("color", "blue");
+		assert(p.getChoices("color").contains("red"));
+		assert(p.getChoices("color").contains("blue"));
+	}
+	
+	@Test
+	public void testTypeToString() {
+		p.addOptionalArgument("color");
+        p.addOptionalArgumentValue("color", "red", Argument.Datatype.STRING);
+        p.addOptionalArgument("age");
+        p.addOptionalArgumentValue("age", "22", Argument.Datatype.INTEGER);
+        p.addOptionalArgument("weight");
+        p.addOptionalArgumentValue("weight", "160.5", Argument.Datatype.FLOAT);
+		p.addOptionalArgument("married");
+        p.addOptionalArgumentValue("married", "false", Argument.Datatype.BOOLEAN);
+		assertEquals("String", p.typeToString(p.optionalArguments.get("color").getDatatype()));
+		assertEquals("integer", p.typeToString(p.optionalArguments.get("age").getDatatype()));
+		assertEquals("float", p.typeToString(p.optionalArguments.get("weight").getDatatype()));
+		assertEquals("boolean", p.typeToString(p.optionalArguments.get("married").getDatatype()));
 	}
 }

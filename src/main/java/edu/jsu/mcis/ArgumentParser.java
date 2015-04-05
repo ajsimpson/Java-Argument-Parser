@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 public class ArgumentParser {
 	
-    private HashMap<String, PositionalArgument> positionalArguments;
-    private HashMap<String, OptionalArgument> optionalArguments;
-	private HashMap<String, String> optionalArgumentShortNames;
+    protected HashMap<String, PositionalArgument> positionalArguments;
+    protected HashMap<String, OptionalArgument> optionalArguments;
+	protected HashMap<String, String> optionalArgumentShortNames;
     
 	public ArgumentParser() {
 		positionalArguments = new HashMap<>();
@@ -102,10 +102,10 @@ public class ArgumentParser {
 		optionalArguments.put(name, temp);
 	}
 	
-	public void getChoices(String name) {
+	public ArrayList<String> getChoices(String name) {
 		OptionalArgument temp = new OptionalArgument(name);
 		temp = optionalArguments.get(name);
-		temp.getChoices();
+		return temp.getChoices();
 	}
 		
 	@SuppressWarnings("unchecked")
@@ -333,4 +333,19 @@ public class ArgumentParser {
     public String showHelp() {
         return("\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box");
     }
+	
+	protected String typeToString(Argument.Datatype type) {
+		if (type == Argument.Datatype.FLOAT) {
+			return "float";
+		}
+		else if (type == Argument.Datatype.INTEGER) {
+			return "integer";
+		}
+		else if (type == Argument.Datatype.BOOLEAN) {
+			return "boolean";
+		}
+		else {
+			return "String";
+		}
+	}
 }

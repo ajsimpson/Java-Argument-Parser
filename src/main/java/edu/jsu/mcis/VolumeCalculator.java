@@ -3,7 +3,7 @@ package edu.jsu.mcis;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class VolCalc {
+public class VolumeCalculator {
 
     public static void main(String[] args) {
 		ArrayList<String> userInput = new ArrayList<>();
@@ -72,5 +72,7 @@ public class VolCalc {
 
         float volume = length * width * height;
         System.out.println("\nThe volume is " + volume);
+		
+		XMLEditor.saveToXML("ArgumentInformation.xml", p);
     }
 }
