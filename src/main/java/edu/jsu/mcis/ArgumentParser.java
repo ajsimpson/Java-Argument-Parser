@@ -55,6 +55,19 @@ public class ArgumentParser {
 		return temp.getValue();
 	}
 	
+    public void addPositionalArgumentDescription(String name, String info) {
+        PositionalArgument temp = new PositionalArgument(name);
+		temp = positionalArguments.get(name);
+        temp.setInfo(info);
+        positionalArguments.put(name, temp);
+    }
+	
+    public String getPositionalArgumentDescription(String name) {
+        PositionalArgument temp = new PositionalArgument(name);
+		temp = positionalArguments.get(name);
+        return temp.getInfo();
+    }
+	
     public void addOptionalArgumentDescription(String name, String info) {
         OptionalArgument temp = new OptionalArgument(name);
 		temp = optionalArguments.get(name);

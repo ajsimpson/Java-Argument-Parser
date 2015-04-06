@@ -1,0 +1,10 @@
+"Positional argument name: length
+Positional argument value: 7
+"Positional argument type: String
+$Positional argument description: 
+
+Optional argument name: color
+Optional argument value: red
+ Optional argument type: String
+<Optional argument description: color's value is a string.
+

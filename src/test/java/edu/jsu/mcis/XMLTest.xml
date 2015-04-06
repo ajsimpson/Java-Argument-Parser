@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arguments>
+	<argument type = "positional">
+		<name>length</name>
+		<value>7</value>
+		<type>String</type>
+		<description></description>
+	</argument>
+	<argument type = "optional">
+		<name>color</name>
+		<value>red</value>
+		<type>String</type>
+		<description>color's value is a string.</description>
+	</argument>
+</arguments>

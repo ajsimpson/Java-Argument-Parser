@@ -23,6 +23,13 @@ public class ArgumentParserTest {
 	}
 	
 	@Test
+	public void testGetDescriptionOfPositionalArgument() {
+		p.addPositionalArgument("Type");
+		p.addPositionalArgumentDescription("Type", "This is Type's description.");
+		assertEquals("This is Type's description.", p.getPositionalArgumentDescription("Type"));
+	}
+	
+	@Test
 	public void testGetPositionalArgument() {
 		p.addPositionalArgument("length");
 		p.addPositionalArgumentValue("length", "7", Argument.Datatype.INTEGER);
@@ -146,6 +153,7 @@ public class ArgumentParserTest {
 		p.addPositionalArgument("height");
 		ArrayList<String> userInput = new ArrayList<>();
 		userInput.add("7");
+		userInput.add("5");
 		userInput.add("something");
 		userInput.add("2");
 		p.parse(userInput);
@@ -183,6 +191,14 @@ public class ArgumentParserTest {
 		p.addOptionalArgumentValue("color", "red", Argument.Datatype.STRING);
 		p.addChoice("color", "blue");
 		assert(p.optionalArguments.get("color").choices.contains("blue"));
+	}
+	
+	@Test
+	public void testIfArgumentHasRestrictedValues() {
+		p.addOptionalArgument("color");
+		p.addOptionalArgumentValue("color", "red", Argument.Datatype.STRING);
+		p.addChoice("color", "blue");
+		assertEquals(true, p.optionalArguments.get("color").hasRestrictedValues());
 	}
 	
 	@Test (expected = RestrictedValueException.class)
@@ -235,5 +251,23 @@ public class ArgumentParserTest {
 		assertEquals("integer", p.typeToString(p.optionalArguments.get("age").getDatatype()));
 		assertEquals("float", p.typeToString(p.optionalArguments.get("weight").getDatatype()));
 		assertEquals("boolean", p.typeToString(p.optionalArguments.get("married").getDatatype()));
+	}
+	
+	@Test
+	public void testWriteAndReadArgumentsToFile() {
+        p.addOptionalArgument("color");
+        p.addOptionalArgumentValue("color", "red", Argument.Datatype.STRING);
+		p.addOptionalArgumentDescription("color", "color's value is a string.");
+		p.addPositionalArgument("length");
+		ArrayList<String> userInput = new ArrayList<>();
+		userInput.add("7");
+		userInput.add("--color");
+		userInput.add("red");
+		p.parse(userInput);
+		XMLEditor.saveToXML("src/test/java/edu/jsu/mcis/XMLTest.xml", p);
+		XMLEditor.loadFromXML("src/test/java/edu/jsu/mcis/XMLTest.xml");
+		assertEquals("length", p.positionalArguments.get("length").getName());
+		assertEquals("color", p.optionalArguments.get("color").getName());
+		assertEquals("red", p.optionalArguments.get("color").getValue());
 	}
 }
