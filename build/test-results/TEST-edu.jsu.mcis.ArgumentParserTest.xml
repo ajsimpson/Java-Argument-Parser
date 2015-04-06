@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.jsu.mcis.ArgumentParserTest" tests="25" skipped="0" failures="0" errors="0" timestamp="2015-04-06T04:22:18" hostname="Andrew" time="0.063">
+<testsuite name="edu.jsu.mcis.ArgumentParserTest" tests="25" skipped="0" failures="0" errors="0" timestamp="2015-04-06T15:17:33" hostname="Andrew" time="0.063">
   <properties/>
   <testcase name="testGetPositionalArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetDifferentNamedArgumentValues" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testUnknownArgumentException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testGetOptionalArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testMissingArgumentException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testGetOptionalValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testGetDifferentOptionalArgumentValues" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testGetFlag" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testIfOptionalArgumentIsPresent" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testIfNamedArgumentIsPresent" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testAddChoice" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testTypeToString" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testGetDescriptionOfOptionalArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testShowHelp" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testIfOptionalArgumentShortNameIsPresent" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testIfArgumentHasRestrictedValues" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testGetDifferentPositionalArgumentValues" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetDescriptionOfNamedArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testInvalidArgumentException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testGetArgumentDataType" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testGetDescriptionOfPositionalArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetNamedArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testGetChoices" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetNamedValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testIfNamedArgumentShortNameIsPresent" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testUseShortNameInput" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testWriteAndReadArgumentsToFile" classname="edu.jsu.mcis.ArgumentParserTest" time="0.047"/>
   <testcase name="testGetUnknownShortName" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
@@ -31,10 +31,10 @@ Positional argument value: 7
 Positional argument type: String
 Positional argument description: 
 
-Optional argument name: color
-Optional argument value: red
-Optional argument type: String
-Optional argument description: color's value is a string.
+Named argument name: color
+Named argument value: red
+Named argument type: String
+Named argument description: color's value is a string.
 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>

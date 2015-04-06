@@ -38,13 +38,13 @@ private static PrintWriter writer;
 					}*/
 					writer.write("\t</argument>\n");
 				}
-				for (Map.Entry<String, OptionalArgument> entry : p.optionalArguments.entrySet()) {
+				for (Map.Entry<String, NamedArgument> entry : p.namedArguments.entrySet()) {
 					String name = entry.getKey();
-					writer.write("\t<argument type = \"optional\"" + ">\n");
-					writer.write("\t\t<name>" + p.optionalArguments.get(name).getName() + "</name>\n");
-					writer.write("\t\t<value>" + p.optionalArguments.get(name).getValue() + "</value>\n");
-					writer.write("\t\t<type>" + p.typeToString(p.optionalArguments.get(name).getDatatype()) + "</type>\n");
-					writer.write("\t\t<description>" + p.optionalArguments.get(name).getInfo() + "</description>\n");
+					writer.write("\t<argument type = \"named\"" + ">\n");
+					writer.write("\t\t<name>" + p.namedArguments.get(name).getName() + "</name>\n");
+					writer.write("\t\t<value>" + p.namedArguments.get(name).getValue() + "</value>\n");
+					writer.write("\t\t<type>" + p.typeToString(p.namedArguments.get(name).getDatatype()) + "</type>\n");
+					writer.write("\t\t<description>" + p.namedArguments.get(name).getInfo() + "</description>\n");
 					/*if(p.namedArguments.get(name).hasRestrictedValues()) {
 						for(int i=0; i<p.namedArguments.get(name).choices.size(); i++) {
 								writer.write("\t\t<restricted>" + p.namedArguments.get(name).choices.get(i) + "</restricted>\n");
@@ -90,15 +90,15 @@ private static PrintWriter writer;
 							}
 						}*/
 					}
-					else if (e.getAttribute("type").equals("optional")) {        
+					else if (e.getAttribute("type").equals("named")) {        
 						String eName = e.getElementsByTagName("name").item(0).getTextContent();
-						System.out.println("Optional argument name: " + eName); //DEMO
+						System.out.println("Named argument name: " + eName); //DEMO
 						String eValue = e.getElementsByTagName("value").item(0).getTextContent();
-						System.out.println("Optional argument value: " + eValue); //DEMO
+						System.out.println("Named argument value: " + eValue); //DEMO
 						String eType = e.getElementsByTagName("type").item(0).getTextContent();
-						System.out.println("Optional argument type: " + eType); //DEMO
+						System.out.println("Named argument type: " + eType); //DEMO
 						String eDescription = e.getElementsByTagName("description").item(0).getTextContent();
-						System.out.println("Optional argument description: " + eDescription +"\n"); //DEMO
+						System.out.println("Named argument description: " + eDescription +"\n"); //DEMO
 						/*if(p.namedArguments.get(eName).hasRestrictedValues()) {
 							ArrayList<String> eRestrictedValues = new ArrayList<>();
 							NodeList restrictedValues = e.getElementsByTagName("restricted");

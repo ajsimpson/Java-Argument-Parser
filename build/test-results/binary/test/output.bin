@@ -3,8 +3,8 @@
 "Positional argument type: String
 $Positional argument description: 
 
-Optional argument name: color
-Optional argument value: red
- Optional argument type: String
-<Optional argument description: color's value is a string.
+Named argument name: color
+Named argument value: red
+Named argument type: String
+9Named argument description: color's value is a string.
 

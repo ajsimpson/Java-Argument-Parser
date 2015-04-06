@@ -17,29 +17,29 @@ public class VolumeCalculator {
 		p.addPositionalArgumentDescription("width", "How wide an object is.");
 		p.addPositionalArgumentDescription("height", "How tall an object is.");
 		
-        p.addOptionalArgument("color");
-        p.addOptionalArgumentValue("color", "red", Argument.Datatype.STRING);
-		p.addOptionalArgumentDescription("color", "color's value is a string.");
+        p.addNamedArgument("color");
+        p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
+		p.addNamedArgumentDescription("color", "color's value is a string.");
 		p.addChoice("color", "blue");
-        p.addOptionalArgument("age");
-        p.addOptionalArgumentValue("age", "22", Argument.Datatype.INTEGER);
-		p.addOptionalArgumentDescription("age", "age's value is an integer.");
-        p.addOptionalArgument("weight");
-        p.addOptionalArgumentValue("weight", "160.5", Argument.Datatype.FLOAT);
-		p.addOptionalArgumentDescription("weight", "weight's value is a float.");
+        p.addNamedArgument("age");
+        p.addNamedArgumentValue("age", "22", Argument.Datatype.INTEGER);
+		p.addNamedArgumentDescription("age", "age's value is an integer.");
+        p.addNamedArgument("weight");
+        p.addNamedArgumentValue("weight", "160.5", Argument.Datatype.FLOAT);
+		p.addNamedArgumentDescription("weight", "weight's value is a float.");
 		
 		/////////////////////////////////////////////////////////////////////////////////////////
 		
 		System.out.println("\nArgument values before command line input:\n");
 		
 		System.out.println("color:");
-		System.out.println("Value of color: " + p.getOptionalArgument("color"));
+		System.out.println("Value of color: " + p.getNamedArgument("color"));
 		System.out.println("Is present: " + p.getFlag("color"));
 		System.out.println("\nage:");
-		System.out.println("Value of age: " + p.getOptionalArgument("age"));
+		System.out.println("Value of age: " + p.getNamedArgument("age"));
 		System.out.println("Is present: " + p.getFlag("age"));
 		System.out.println("\nweight:");
-		System.out.println("Value of weight: " + p.getOptionalArgument("weight")+"");
+		System.out.println("Value of weight: " + p.getNamedArgument("weight")+"");
 		System.out.println("Is present: " + p.getFlag("weight"));
 
 		System.out.println("\nValue of length: " + p.getPositionalArgument("length"));
@@ -51,13 +51,13 @@ public class VolumeCalculator {
 		System.out.println("\nArgument values after command line input:\n");
 		
 		System.out.println("color:");
-		System.out.println("Value of color: " + p.getOptionalArgument("color"));
+		System.out.println("Value of color: " + p.getNamedArgument("color"));
 		System.out.println("Is present: " + p.getFlag("color"));
 		System.out.println("\nage:");
-		System.out.println("Value of age: " + p.getOptionalArgument("age"));
+		System.out.println("Value of age: " + p.getNamedArgument("age"));
 		System.out.println("Is present: " + p.getFlag("age"));
 		System.out.println("\nweight:");
-		System.out.println("Value of weight: " + p.getOptionalArgument("weight"));
+		System.out.println("Value of weight: " + p.getNamedArgument("weight"));
 		System.out.println("Is present: " + p.getFlag("weight"));
 
 		System.out.println("\nValue of length: " + p.getPositionalArgumentValue("length"));

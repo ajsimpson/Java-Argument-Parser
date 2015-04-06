@@ -38,13 +38,13 @@ private static PrintWriter writer;
 					}*/
 <span class="fc" id="L39">					writer.write(&quot;\t&lt;/argument&gt;\n&quot;);</span>
 <span class="fc" id="L40">				}</span>
-<span class="fc bfc" id="L41" title="All 2 branches covered.">				for (Map.Entry&lt;String, OptionalArgument&gt; entry : p.optionalArguments.entrySet()) {</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">				for (Map.Entry&lt;String, NamedArgument&gt; entry : p.namedArguments.entrySet()) {</span>
 <span class="fc" id="L42">					String name = entry.getKey();</span>
-<span class="fc" id="L43">					writer.write(&quot;\t&lt;argument type = \&quot;optional\&quot;&quot; + &quot;&gt;\n&quot;);</span>
-<span class="fc" id="L44">					writer.write(&quot;\t\t&lt;name&gt;&quot; + p.optionalArguments.get(name).getName() + &quot;&lt;/name&gt;\n&quot;);</span>
-<span class="fc" id="L45">					writer.write(&quot;\t\t&lt;value&gt;&quot; + p.optionalArguments.get(name).getValue() + &quot;&lt;/value&gt;\n&quot;);</span>
-<span class="fc" id="L46">					writer.write(&quot;\t\t&lt;type&gt;&quot; + p.typeToString(p.optionalArguments.get(name).getDatatype()) + &quot;&lt;/type&gt;\n&quot;);</span>
-<span class="fc" id="L47">					writer.write(&quot;\t\t&lt;description&gt;&quot; + p.optionalArguments.get(name).getInfo() + &quot;&lt;/description&gt;\n&quot;);</span>
+<span class="fc" id="L43">					writer.write(&quot;\t&lt;argument type = \&quot;named\&quot;&quot; + &quot;&gt;\n&quot;);</span>
+<span class="fc" id="L44">					writer.write(&quot;\t\t&lt;name&gt;&quot; + p.namedArguments.get(name).getName() + &quot;&lt;/name&gt;\n&quot;);</span>
+<span class="fc" id="L45">					writer.write(&quot;\t\t&lt;value&gt;&quot; + p.namedArguments.get(name).getValue() + &quot;&lt;/value&gt;\n&quot;);</span>
+<span class="fc" id="L46">					writer.write(&quot;\t\t&lt;type&gt;&quot; + p.typeToString(p.namedArguments.get(name).getDatatype()) + &quot;&lt;/type&gt;\n&quot;);</span>
+<span class="fc" id="L47">					writer.write(&quot;\t\t&lt;description&gt;&quot; + p.namedArguments.get(name).getInfo() + &quot;&lt;/description&gt;\n&quot;);</span>
 					/*if(p.namedArguments.get(name).hasRestrictedValues()) {
 						for(int i=0; i&lt;p.namedArguments.get(name).choices.size(); i++) {
 								writer.write(&quot;\t\t&lt;restricted&gt;&quot; + p.namedArguments.get(name).choices.get(i) + &quot;&lt;/restricted&gt;\n&quot;);
@@ -90,15 +90,15 @@ private static PrintWriter writer;
 							}
 						}*/
 <span class="fc" id="L92">					}</span>
-<span class="pc bpc" id="L93" title="1 of 2 branches missed.">					else if (e.getAttribute(&quot;type&quot;).equals(&quot;optional&quot;)) {        </span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">					else if (e.getAttribute(&quot;type&quot;).equals(&quot;named&quot;)) {        </span>
 <span class="fc" id="L94">						String eName = e.getElementsByTagName(&quot;name&quot;).item(0).getTextContent();</span>
-<span class="fc" id="L95">						System.out.println(&quot;Optional argument name: &quot; + eName); //DEMO</span>
+<span class="fc" id="L95">						System.out.println(&quot;Named argument name: &quot; + eName); //DEMO</span>
 <span class="fc" id="L96">						String eValue = e.getElementsByTagName(&quot;value&quot;).item(0).getTextContent();</span>
-<span class="fc" id="L97">						System.out.println(&quot;Optional argument value: &quot; + eValue); //DEMO</span>
+<span class="fc" id="L97">						System.out.println(&quot;Named argument value: &quot; + eValue); //DEMO</span>
 <span class="fc" id="L98">						String eType = e.getElementsByTagName(&quot;type&quot;).item(0).getTextContent();</span>
-<span class="fc" id="L99">						System.out.println(&quot;Optional argument type: &quot; + eType); //DEMO</span>
+<span class="fc" id="L99">						System.out.println(&quot;Named argument type: &quot; + eType); //DEMO</span>
 <span class="fc" id="L100">						String eDescription = e.getElementsByTagName(&quot;description&quot;).item(0).getTextContent();</span>
-<span class="fc" id="L101">						System.out.println(&quot;Optional argument description: &quot; + eDescription +&quot;\n&quot;); //DEMO</span>
+<span class="fc" id="L101">						System.out.println(&quot;Named argument description: &quot; + eDescription +&quot;\n&quot;); //DEMO</span>
 						/*if(p.namedArguments.get(eName).hasRestrictedValues()) {
 							ArrayList&lt;String&gt; eRestrictedValues = new ArrayList&lt;&gt;();
 							NodeList restrictedValues = e.getElementsByTagName(&quot;restricted&quot;);

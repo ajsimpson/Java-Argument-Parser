@@ -6,7 +6,7 @@
 		<type>String</type>
 		<description></description>
 	</argument>
-	<argument type = "optional">
+	<argument type = "named">
 		<name>color</name>
 		<value>red</value>
 		<type>String</type>

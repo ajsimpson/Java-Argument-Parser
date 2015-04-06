@@ -6,23 +6,23 @@ import java.util.HashMap;
 public class ArgumentParser {
 	
     protected HashMap&lt;String, PositionalArgument&gt; positionalArguments;
-    protected HashMap&lt;String, OptionalArgument&gt; optionalArguments;
-	protected HashMap&lt;String, String&gt; optionalArgumentShortNames;
+    protected HashMap&lt;String, NamedArgument&gt; namedArguments;
+	protected HashMap&lt;String, String&gt; namedArgumentShortNames;
     
 <span class="fc" id="L12">	public ArgumentParser() {</span>
 <span class="fc" id="L13">		positionalArguments = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L14">		optionalArguments = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L15">		optionalArgumentShortNames = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L14">		namedArguments = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L15">		namedArgumentShortNames = new HashMap&lt;&gt;();</span>
 <span class="fc" id="L16">	}</span>
 	
     public void addPositionalArgument(String name) {
 <span class="fc" id="L19">        positionalArguments.put(name, new PositionalArgument(name));</span>
 <span class="fc" id="L20">    }</span>
     
-    public void addOptionalArgument(String name) {
-<span class="fc" id="L23">        optionalArguments.put(name, new OptionalArgument(name));</span>
+    public void addNamedArgument(String name) {
+<span class="fc" id="L23">        namedArguments.put(name, new NamedArgument(name));</span>
 <span class="fc" id="L24">		String shortName = &quot;&quot; + name.charAt(0);</span>
-<span class="fc" id="L25">		optionalArgumentShortNames.put(shortName, name);</span>
+<span class="fc" id="L25">		namedArgumentShortNames.put(shortName, name);</span>
 <span class="fc" id="L26">    }</span>
 	
     public void addPositionalArgumentValue(String name, String value, Argument.Datatype type) {
@@ -32,15 +32,15 @@ public class ArgumentParser {
 <span class="fc" id="L32">        positionalArguments.put(name,temp);</span>
 <span class="fc" id="L33">    }</span>
     
-    public void addOptionalArgumentValue(String name, String value, Argument.Datatype type) {
-<span class="fc" id="L36">        OptionalArgument temp = new OptionalArgument(name);</span>
+    public void addNamedArgumentValue(String name, String value, Argument.Datatype type) {
+<span class="fc" id="L36">        NamedArgument temp = new NamedArgument(name);</span>
 <span class="fc" id="L37">		temp.addChoice(value);</span>
 <span class="fc" id="L38">        temp.setValue(value);</span>
 <span class="fc" id="L39">        temp.setDatatype(type);</span>
 <span class="fc bfc" id="L40" title="All 2 branches covered.">		if(type != Argument.Datatype.STRING) {</span>
 <span class="fc" id="L41">			checkForInvalidArguments(value);</span>
 		}
-<span class="fc" id="L43">        optionalArguments.put(name, temp);</span>
+<span class="fc" id="L43">        namedArguments.put(name, temp);</span>
 <span class="fc" id="L44">    }</span>
 	
 	public String getPositionalArgumentValue(String name) {
@@ -49,9 +49,9 @@ public class ArgumentParser {
 <span class="fc" id="L49">		return temp.getValue();</span>
 	}
 	
-	public String getOptionalArgumentValue(String name) {
-<span class="fc" id="L53">        OptionalArgument temp = new OptionalArgument(name);</span>
-<span class="fc" id="L54">        temp = optionalArguments.get(name);</span>
+	public String getNamedArgumentValue(String name) {
+<span class="fc" id="L53">        NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L54">        temp = namedArguments.get(name);</span>
 <span class="fc" id="L55">		return temp.getValue();</span>
 	}
 	
@@ -68,56 +68,56 @@ public class ArgumentParser {
 <span class="fc" id="L68">        return temp.getInfo();</span>
     }
 	
-    public void addOptionalArgumentDescription(String name, String info) {
-<span class="fc" id="L72">        OptionalArgument temp = new OptionalArgument(name);</span>
-<span class="fc" id="L73">		temp = optionalArguments.get(name);</span>
+    public void addNamedArgumentDescription(String name, String info) {
+<span class="fc" id="L72">        NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L73">		temp = namedArguments.get(name);</span>
 <span class="fc" id="L74">        temp.setInfo(info);</span>
-<span class="fc" id="L75">        optionalArguments.put(name, temp);</span>
+<span class="fc" id="L75">        namedArguments.put(name, temp);</span>
 <span class="fc" id="L76">    }</span>
 	
-    public String getOptionalArgumentDescription(String name) {
-<span class="fc" id="L79">        OptionalArgument temp = new OptionalArgument(name);</span>
-<span class="fc" id="L80">		temp = optionalArguments.get(name);</span>
+    public String getNamedArgumentDescription(String name) {
+<span class="fc" id="L79">        NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L80">		temp = namedArguments.get(name);</span>
 <span class="fc" id="L81">        return temp.getInfo();</span>
     }
 	
 	public void setFlag(String name, boolean flag) {
-<span class="fc" id="L85">        OptionalArgument temp = new OptionalArgument(name);</span>
-<span class="fc" id="L86">        temp = optionalArguments.get(name);</span>
+<span class="fc" id="L85">        NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L86">        temp = namedArguments.get(name);</span>
 <span class="fc" id="L87">		temp.setFlag(flag);</span>
-<span class="fc" id="L88">		optionalArguments.put(name, temp);</span>
+<span class="fc" id="L88">		namedArguments.put(name, temp);</span>
 <span class="fc" id="L89">	}</span>
 	
 	public boolean getFlag(String name) {
-<span class="fc" id="L92">        OptionalArgument temp = new OptionalArgument(name);</span>
-<span class="fc" id="L93">        temp = optionalArguments.get(name);</span>
+<span class="fc" id="L92">        NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L93">        temp = namedArguments.get(name);</span>
 <span class="fc" id="L94">		return temp.getFlag();</span>
 	}
 	
-	public void setOptionalArgumentType(String name, Argument.Datatype type) {
-<span class="fc" id="L98">        OptionalArgument temp = new OptionalArgument(name);</span>
-<span class="fc" id="L99">        temp = optionalArguments.get(name);</span>
+	public void setNamedArgumentType(String name, Argument.Datatype type) {
+<span class="fc" id="L98">        NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L99">        temp = namedArguments.get(name);</span>
 <span class="fc" id="L100">		temp.setDatatype(type);</span>
-<span class="fc" id="L101">		optionalArguments.put(name, temp);</span>
+<span class="fc" id="L101">		namedArguments.put(name, temp);</span>
 <span class="fc" id="L102">	}</span>
 	
-	public Argument.Datatype getOptionalArgumentType(String name) {
-<span class="fc" id="L105">        OptionalArgument temp = new OptionalArgument(name);</span>
-<span class="fc" id="L106">        temp = optionalArguments.get(name);</span>
+	public Argument.Datatype getNamedArgumentType(String name) {
+<span class="fc" id="L105">        NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L106">        temp = namedArguments.get(name);</span>
 <span class="fc" id="L107">		return temp.getDatatype();</span>
 	}
 
 	public void addChoice(String name, String choice) {
-<span class="fc" id="L111">		OptionalArgument temp = new OptionalArgument(name);</span>
-<span class="fc" id="L112">		temp = optionalArguments.get(name);</span>
+<span class="fc" id="L111">		NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L112">		temp = namedArguments.get(name);</span>
 <span class="fc" id="L113">		temp.setRestrictedValues(true);</span>
 <span class="fc" id="L114">		temp.addChoice(choice);</span>
-<span class="fc" id="L115">		optionalArguments.put(name, temp);</span>
+<span class="fc" id="L115">		namedArguments.put(name, temp);</span>
 <span class="fc" id="L116">	}</span>
 	
 	public ArrayList&lt;String&gt; getChoices(String name) {
-<span class="fc" id="L119">		OptionalArgument temp = new OptionalArgument(name);</span>
-<span class="fc" id="L120">		temp = optionalArguments.get(name);</span>
+<span class="fc" id="L119">		NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L120">		temp = namedArguments.get(name);</span>
 <span class="fc" id="L121">		return temp.getChoices();</span>
 	}
 		
@@ -143,20 +143,20 @@ public class ArgumentParser {
     }
     
 	@SuppressWarnings(&quot;unchecked&quot;)
-    public &lt;T&gt; T getOptionalArgument(String name) {
+    public &lt;T&gt; T getNamedArgument(String name) {
 <span class="fc" id="L147">		Object v = null;</span>
-<span class="fc" id="L148">        OptionalArgument temp = new OptionalArgument(name);</span>
-<span class="fc" id="L149">        temp = optionalArguments.get(name);</span>
+<span class="fc" id="L148">        NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L149">        temp = namedArguments.get(name);</span>
 <span class="pc bpc" id="L150" title="2 of 7 branches missed.">        if(null != temp.type) switch (temp.type) {</span>
             case INTEGER:
 <span class="fc" id="L152">                v = Integer.parseInt(temp.value);</span>
-<span class="fc" id="L153">                parseOptionalArgumentInt(name);</span>
+<span class="fc" id="L153">                parseNamedArgumentInt(name);</span>
             case FLOAT:
 <span class="fc" id="L155">                v = Float.parseFloat(temp.value);</span>
-<span class="fc" id="L156">                parseOptionalArgumentFloat(name);</span>
+<span class="fc" id="L156">                parseNamedArgumentFloat(name);</span>
             case BOOLEAN:
 <span class="fc" id="L158">                v = Boolean.parseBoolean(temp.value);</span>
-<span class="fc" id="L159">                parseOptionalArgumentBoolean(name);</span>
+<span class="fc" id="L159">                parseNamedArgumentBoolean(name);</span>
             case STRING:
 <span class="fc" id="L161">                v = temp.value;</span>
         }
@@ -181,21 +181,21 @@ public class ArgumentParser {
 <span class="fc" id="L181">		return Boolean.parseBoolean(temp.value);</span>
 	}
 	
-	public int parseOptionalArgumentInt(String name) {
-<span class="fc" id="L185">        OptionalArgument temp = new OptionalArgument(name);</span>
-<span class="fc" id="L186">        temp = optionalArguments.get(name);</span>
+	public int parseNamedArgumentInt(String name) {
+<span class="fc" id="L185">        NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L186">        temp = namedArguments.get(name);</span>
 <span class="fc" id="L187">		return Integer.parseInt(temp.value);</span>
 	}
 	
-	public float parseOptionalArgumentFloat(String name) {
-<span class="fc" id="L191">        OptionalArgument temp = new OptionalArgument(name);</span>
-<span class="fc" id="L192">        temp = optionalArguments.get(name);</span>
+	public float parseNamedArgumentFloat(String name) {
+<span class="fc" id="L191">        NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L192">        temp = namedArguments.get(name);</span>
 <span class="fc" id="L193">		return Float.parseFloat(temp.value);</span>
 	}
 	
-	public boolean parseOptionalArgumentBoolean(String name) {
-<span class="fc" id="L197">        OptionalArgument temp = new OptionalArgument(name);</span>
-<span class="fc" id="L198">        temp = optionalArguments.get(name);</span>
+	public boolean parseNamedArgumentBoolean(String name) {
+<span class="fc" id="L197">        NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L198">        temp = namedArguments.get(name);</span>
 <span class="fc" id="L199">		return Boolean.parseBoolean(temp.value);</span>
 	}
 	
@@ -211,28 +211,28 @@ public class ArgumentParser {
 			}
 <span class="fc bfc" id="L212" title="All 2 branches covered.">			else if(input.get(i).startsWith(&quot;--&quot;)) {</span>
 <span class="fc" id="L213">				argument = input.get(i).replace(&quot;--&quot;, &quot;&quot;);</span>
-<span class="fc" id="L214">				OptionalArgument temp = new OptionalArgument(argument);</span>
-<span class="fc" id="L215">				temp = optionalArguments.get(argument);</span>
+<span class="fc" id="L214">				NamedArgument temp = new NamedArgument(argument);</span>
+<span class="fc" id="L215">				temp = namedArguments.get(argument);</span>
 <span class="fc bfc" id="L216" title="All 2 branches covered.">				if(temp == null) {</span>
 <span class="fc" id="L217">					throw new UnknownArgumentException(&quot;\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown arguments: &quot; + argument);</span>
 				}
 <span class="fc" id="L219">				temp.setFlag(true);</span>
 <span class="fc" id="L220">				temp.setValue(input.get(i+1));</span>
 <span class="fc" id="L221">				temp.isRestrictedValue(input.get(i+1));</span>
-<span class="fc" id="L222">				optionalArguments.put(argument, temp);</span>
+<span class="fc" id="L222">				namedArguments.put(argument, temp);</span>
 <span class="fc" id="L223">				input.set(i, &quot;&quot;);</span>
 <span class="fc" id="L224">				input.set(i+1, &quot;&quot;);</span>
 <span class="fc" id="L225">			}</span>
 <span class="pc bpc" id="L226" title="1 of 4 branches missed.">			else if(input.get(i).contains(&quot;-&quot;) &amp;&amp; !input.get(i).contains(&quot;--&quot;)) {</span>
 <span class="fc" id="L227">				argument = input.get(i).replace(&quot;-&quot;, &quot;&quot;);</span>
-<span class="fc bfc" id="L228" title="All 2 branches covered.">				if(optionalArgumentShortNames.get(argument) != null) {</span>
-<span class="fc" id="L229">					name = optionalArgumentShortNames.get(argument);</span>
-<span class="fc" id="L230">					OptionalArgument temp = new OptionalArgument(name);</span>
-<span class="fc" id="L231">					temp = optionalArguments.get(name);</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">				if(namedArgumentShortNames.get(argument) != null) {</span>
+<span class="fc" id="L229">					name = namedArgumentShortNames.get(argument);</span>
+<span class="fc" id="L230">					NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L231">					temp = namedArguments.get(name);</span>
 <span class="fc" id="L232">					temp.setFlag(true);</span>
 <span class="fc" id="L233">					temp.setValue(input.get(i+1));</span>
 <span class="fc" id="L234">					temp.isRestrictedValue(input.get(i+1));</span>
-<span class="fc" id="L235">					optionalArguments.put(name, temp);</span>
+<span class="fc" id="L235">					namedArguments.put(name, temp);</span>
 <span class="fc" id="L236">					input.set(i, &quot;&quot;);</span>
 <span class="fc" id="L237">					input.set(i+1, &quot;&quot;);</span>
 <span class="fc" id="L238">					}</span>

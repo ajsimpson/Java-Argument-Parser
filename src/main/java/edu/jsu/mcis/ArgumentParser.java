@@ -6,23 +6,23 @@ import java.util.HashMap;
 public class ArgumentParser {
 	
     protected HashMap<String, PositionalArgument> positionalArguments;
-    protected HashMap<String, OptionalArgument> optionalArguments;
-	protected HashMap<String, String> optionalArgumentShortNames;
+    protected HashMap<String, NamedArgument> namedArguments;
+	protected HashMap<String, String> namedArgumentShortNames;
     
 	public ArgumentParser() {
 		positionalArguments = new HashMap<>();
-		optionalArguments = new HashMap<>();
-		optionalArgumentShortNames = new HashMap<>();
+		namedArguments = new HashMap<>();
+		namedArgumentShortNames = new HashMap<>();
 	}
 	
     public void addPositionalArgument(String name) {
         positionalArguments.put(name, new PositionalArgument(name));
     }
     
-    public void addOptionalArgument(String name) {
-        optionalArguments.put(name, new OptionalArgument(name));
+    public void addNamedArgument(String name) {
+        namedArguments.put(name, new NamedArgument(name));
 		String shortName = "" + name.charAt(0);
-		optionalArgumentShortNames.put(shortName, name);
+		namedArgumentShortNames.put(shortName, name);
     }
 	
     public void addPositionalArgumentValue(String name, String value, Argument.Datatype type) {
@@ -32,15 +32,15 @@ public class ArgumentParser {
         positionalArguments.put(name,temp);
     }
     
-    public void addOptionalArgumentValue(String name, String value, Argument.Datatype type) {
-        OptionalArgument temp = new OptionalArgument(name);
+    public void addNamedArgumentValue(String name, String value, Argument.Datatype type) {
+        NamedArgument temp = new NamedArgument(name);
 		temp.addChoice(value);
         temp.setValue(value);
         temp.setDatatype(type);
 		if(type != Argument.Datatype.STRING) {
 			checkForInvalidArguments(value);
 		}
-        optionalArguments.put(name, temp);
+        namedArguments.put(name, temp);
     }
 	
 	public String getPositionalArgumentValue(String name) {
@@ -49,9 +49,9 @@ public class ArgumentParser {
 		return temp.getValue();
 	}
 	
-	public String getOptionalArgumentValue(String name) {
-        OptionalArgument temp = new OptionalArgument(name);
-        temp = optionalArguments.get(name);
+	public String getNamedArgumentValue(String name) {
+        NamedArgument temp = new NamedArgument(name);
+        temp = namedArguments.get(name);
 		return temp.getValue();
 	}
 	
@@ -68,56 +68,56 @@ public class ArgumentParser {
         return temp.getInfo();
     }
 	
-    public void addOptionalArgumentDescription(String name, String info) {
-        OptionalArgument temp = new OptionalArgument(name);
-		temp = optionalArguments.get(name);
+    public void addNamedArgumentDescription(String name, String info) {
+        NamedArgument temp = new NamedArgument(name);
+		temp = namedArguments.get(name);
         temp.setInfo(info);
-        optionalArguments.put(name, temp);
+        namedArguments.put(name, temp);
     }
 	
-    public String getOptionalArgumentDescription(String name) {
-        OptionalArgument temp = new OptionalArgument(name);
-		temp = optionalArguments.get(name);
+    public String getNamedArgumentDescription(String name) {
+        NamedArgument temp = new NamedArgument(name);
+		temp = namedArguments.get(name);
         return temp.getInfo();
     }
 	
 	public void setFlag(String name, boolean flag) {
-        OptionalArgument temp = new OptionalArgument(name);
-        temp = optionalArguments.get(name);
+        NamedArgument temp = new NamedArgument(name);
+        temp = namedArguments.get(name);
 		temp.setFlag(flag);
-		optionalArguments.put(name, temp);
+		namedArguments.put(name, temp);
 	}
 	
 	public boolean getFlag(String name) {
-        OptionalArgument temp = new OptionalArgument(name);
-        temp = optionalArguments.get(name);
+        NamedArgument temp = new NamedArgument(name);
+        temp = namedArguments.get(name);
 		return temp.getFlag();
 	}
 	
-	public void setOptionalArgumentType(String name, Argument.Datatype type) {
-        OptionalArgument temp = new OptionalArgument(name);
-        temp = optionalArguments.get(name);
+	public void setNamedArgumentType(String name, Argument.Datatype type) {
+        NamedArgument temp = new NamedArgument(name);
+        temp = namedArguments.get(name);
 		temp.setDatatype(type);
-		optionalArguments.put(name, temp);
+		namedArguments.put(name, temp);
 	}
 	
-	public Argument.Datatype getOptionalArgumentType(String name) {
-        OptionalArgument temp = new OptionalArgument(name);
-        temp = optionalArguments.get(name);
+	public Argument.Datatype getNamedArgumentType(String name) {
+        NamedArgument temp = new NamedArgument(name);
+        temp = namedArguments.get(name);
 		return temp.getDatatype();
 	}
 
 	public void addChoice(String name, String choice) {
-		OptionalArgument temp = new OptionalArgument(name);
-		temp = optionalArguments.get(name);
+		NamedArgument temp = new NamedArgument(name);
+		temp = namedArguments.get(name);
 		temp.setRestrictedValues(true);
 		temp.addChoice(choice);
-		optionalArguments.put(name, temp);
+		namedArguments.put(name, temp);
 	}
 	
 	public ArrayList<String> getChoices(String name) {
-		OptionalArgument temp = new OptionalArgument(name);
-		temp = optionalArguments.get(name);
+		NamedArgument temp = new NamedArgument(name);
+		temp = namedArguments.get(name);
 		return temp.getChoices();
 	}
 		
@@ -143,20 +143,20 @@ public class ArgumentParser {
     }
     
 	@SuppressWarnings("unchecked")
-    public <T> T getOptionalArgument(String name) {
+    public <T> T getNamedArgument(String name) {
 		Object v = null;
-        OptionalArgument temp = new OptionalArgument(name);
-        temp = optionalArguments.get(name);
+        NamedArgument temp = new NamedArgument(name);
+        temp = namedArguments.get(name);
         if(null != temp.type) switch (temp.type) {
             case INTEGER:
                 v = Integer.parseInt(temp.value);
-                parseOptionalArgumentInt(name);
+                parseNamedArgumentInt(name);
             case FLOAT:
                 v = Float.parseFloat(temp.value);
-                parseOptionalArgumentFloat(name);
+                parseNamedArgumentFloat(name);
             case BOOLEAN:
                 v = Boolean.parseBoolean(temp.value);
-                parseOptionalArgumentBoolean(name);
+                parseNamedArgumentBoolean(name);
             case STRING:
                 v = temp.value;
         }
@@ -181,21 +181,21 @@ public class ArgumentParser {
 		return Boolean.parseBoolean(temp.value);
 	}
 	
-	public int parseOptionalArgumentInt(String name) {
-        OptionalArgument temp = new OptionalArgument(name);
-        temp = optionalArguments.get(name);
+	public int parseNamedArgumentInt(String name) {
+        NamedArgument temp = new NamedArgument(name);
+        temp = namedArguments.get(name);
 		return Integer.parseInt(temp.value);
 	}
 	
-	public float parseOptionalArgumentFloat(String name) {
-        OptionalArgument temp = new OptionalArgument(name);
-        temp = optionalArguments.get(name);
+	public float parseNamedArgumentFloat(String name) {
+        NamedArgument temp = new NamedArgument(name);
+        temp = namedArguments.get(name);
 		return Float.parseFloat(temp.value);
 	}
 	
-	public boolean parseOptionalArgumentBoolean(String name) {
-        OptionalArgument temp = new OptionalArgument(name);
-        temp = optionalArguments.get(name);
+	public boolean parseNamedArgumentBoolean(String name) {
+        NamedArgument temp = new NamedArgument(name);
+        temp = namedArguments.get(name);
 		return Boolean.parseBoolean(temp.value);
 	}
 	
@@ -211,28 +211,28 @@ public class ArgumentParser {
 			}
 			else if(input.get(i).startsWith("--")) {
 				argument = input.get(i).replace("--", "");
-				OptionalArgument temp = new OptionalArgument(argument);
-				temp = optionalArguments.get(argument);
+				NamedArgument temp = new NamedArgument(argument);
+				temp = namedArguments.get(argument);
 				if(temp == null) {
 					throw new UnknownArgumentException("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown arguments: " + argument);
 				}
 				temp.setFlag(true);
 				temp.setValue(input.get(i+1));
 				temp.isRestrictedValue(input.get(i+1));
-				optionalArguments.put(argument, temp);
+				namedArguments.put(argument, temp);
 				input.set(i, "");
 				input.set(i+1, "");
 			}
 			else if(input.get(i).contains("-") && !input.get(i).contains("--")) {
 				argument = input.get(i).replace("-", "");
-				if(optionalArgumentShortNames.get(argument) != null) {
-					name = optionalArgumentShortNames.get(argument);
-					OptionalArgument temp = new OptionalArgument(name);
-					temp = optionalArguments.get(name);
+				if(namedArgumentShortNames.get(argument) != null) {
+					name = namedArgumentShortNames.get(argument);
+					NamedArgument temp = new NamedArgument(name);
+					temp = namedArguments.get(name);
 					temp.setFlag(true);
 					temp.setValue(input.get(i+1));
 					temp.isRestrictedValue(input.get(i+1));
-					optionalArguments.put(name, temp);
+					namedArguments.put(name, temp);
 					input.set(i, "");
 					input.set(i+1, "");
 					}
