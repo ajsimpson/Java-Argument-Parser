@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.jsu.mcis.ArgumentParserTest" tests="25" skipped="0" failures="0" errors="0" timestamp="2015-04-06T15:17:33" hostname="Andrew" time="0.063">
+<testsuite name="edu.jsu.mcis.ArgumentParserTest" tests="25" skipped="0" failures="0" errors="0" timestamp="2015-04-07T16:59:35" hostname="Andrew" time="0.049">
   <properties/>
-  <testcase name="testGetPositionalArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testGetDifferentNamedArgumentValues" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testUnknownArgumentException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testMissingArgumentException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetPositionalArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.008"/>
+  <testcase name="testGetDifferentNamedArgumentValues" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testUnknownArgumentException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testMissingArgumentException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
   <testcase name="testGetFlag" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testIfNamedArgumentIsPresent" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testAddChoice" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
@@ -21,9 +21,9 @@
   <testcase name="testGetNamedValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testIfNamedArgumentShortNameIsPresent" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testUseShortNameInput" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testWriteAndReadArgumentsToFile" classname="edu.jsu.mcis.ArgumentParserTest" time="0.047"/>
+  <testcase name="testWriteAndReadArgumentsToFile" classname="edu.jsu.mcis.ArgumentParserTest" time="0.029"/>
   <testcase name="testGetUnknownShortName" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testUnrecognisedArgumentException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testUnrecognisedArgumentException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
   <testcase name="testGetArgumentValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testRestrictedValueException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <system-out><![CDATA[Positional argument name: length

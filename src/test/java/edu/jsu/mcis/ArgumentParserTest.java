@@ -9,10 +9,12 @@ import java.util.Arrays;
 public class ArgumentParserTest {
 
 	private ArgumentParser p;
+	private XMLEditor xmle;
 	
 	@Before
 	public void startUp() {
 		p = new ArgumentParser();
+		xmle = new XMLEditor();
 	}
 	
 	@Test
@@ -264,8 +266,8 @@ public class ArgumentParserTest {
 		userInput.add("--color");
 		userInput.add("red");
 		p.parse(userInput);
-		XMLEditor.saveToXML("src/test/java/edu/jsu/mcis/XMLTest.xml", p);
-		XMLEditor.loadFromXML("src/test/java/edu/jsu/mcis/XMLTest.xml");
+		xmle.saveToXML("src/test/java/edu/jsu/mcis/XMLTest.xml", p);
+		xmle.loadFromXML("src/test/java/edu/jsu/mcis/XMLTest.xml");
 		assertEquals("length", p.positionalArguments.get("length").getName());
 		assertEquals("color", p.namedArguments.get("color").getName());
 		assertEquals("red", p.namedArguments.get("color").getValue());

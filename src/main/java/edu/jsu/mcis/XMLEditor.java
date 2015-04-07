@@ -17,9 +17,9 @@ import org.xml.sax.SAXException;
 
 public class XMLEditor {
 
-private static PrintWriter writer;
+private PrintWriter writer;
 
-	 public static void saveToXML(String fileName, ArgumentParser p) {
+	 public void saveToXML(String fileName, ArgumentParser p) {
 			try{
 				writer = new PrintWriter(fileName);
 				writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -59,13 +59,13 @@ private static PrintWriter writer;
 		}
 	}
 	
-	public static ArgumentParser loadFromXML(String file) {
+	public ArgumentParser loadFromXML(String file) {
 		ArgumentParser p = new ArgumentParser();
 		try {
 			File XMLFile = new File(file);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();
-			Document XMLDoc = docBuilder.parse(XMLFile);                //EROR HERE OCCURS HERE
+			Document XMLDoc = docBuilder.parse(XMLFile);
 			XMLDoc.getDocumentElement().normalize();
 			NodeList nodeList = XMLDoc.getElementsByTagName("argument");
 			for (int i = 0; i < nodeList.getLength(); i++) {

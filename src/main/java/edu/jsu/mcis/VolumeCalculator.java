@@ -64,10 +64,11 @@ public class VolumeCalculator {
 		System.out.println("Value of width: " + p.getPositionalArgumentValue("width"));
 		System.out.println("Value of height: " + p.getPositionalArgumentValue("height"));
 		
+		XMLEditor xmle = new XMLEditor();
 		System.out.println("\nSaving to XML...");
-		XMLEditor.saveToXML("ArgumentInformation.xml", p);
+		xmle.saveToXML("ArgumentInformation.xml", p);
 		System.out.println("\nLoading from XML...\n");
-		XMLEditor.loadFromXML("ArgumentInformation.xml");
+		xmle.loadFromXML("ArgumentInformation.xml");
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		
