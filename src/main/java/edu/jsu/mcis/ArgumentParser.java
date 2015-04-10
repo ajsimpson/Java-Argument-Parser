@@ -1,18 +1,23 @@
 package edu.jsu.mcis;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.HashMap;
 
 public class ArgumentParser {
 	
-    protected HashMap<String, PositionalArgument> positionalArguments;
-    protected HashMap<String, NamedArgument> namedArguments;
-	protected HashMap<String, String> namedArgumentShortNames;
+    protected Map<String, PositionalArgument> positionalArguments;
+    protected Map<String, NamedArgument> namedArguments;
+	private Map<String, String> namedArgumentShortNames;
+	private Map<String, ArrayList<String>> groups;
+	private ArrayList<String> requiredArguments;
     
 	public ArgumentParser() {
 		positionalArguments = new HashMap<>();
 		namedArguments = new HashMap<>();
 		namedArgumentShortNames = new HashMap<>();
+		groups = new HashMap<>();
+		requiredArguments = new ArrayList<>();
 	}
 	
     public void addPositionalArgument(String name) {
@@ -25,6 +30,22 @@ public class ArgumentParser {
 		namedArgumentShortNames.put(shortName, name);
     }
 	
+	public ArrayList<String> getPositionalArgumentNames() {
+		ArrayList<String> positionalArgumentNames = new ArrayList<>();
+		for (Map.Entry<String, PositionalArgument> entry : positionalArguments.entrySet()) {
+			positionalArgumentNames.add(entry.getKey());
+		}
+		return positionalArgumentNames;
+	}
+	
+	public ArrayList<String> getNamedArgumentNames() {
+		ArrayList<String> namedArgumentNames = new ArrayList<>();
+		for (Map.Entry<String, NamedArgument> entry : namedArguments.entrySet()) {
+			namedArgumentNames.add(entry.getKey());
+		}
+		return namedArgumentNames;
+	}
+	
     public void addPositionalArgumentValue(String name, String value, Argument.Datatype type) {
         PositionalArgument temp = new PositionalArgument(name);
         temp.setValue(value);
@@ -34,13 +55,52 @@ public class ArgumentParser {
     
     public void addNamedArgumentValue(String name, String value, Argument.Datatype type) {
         NamedArgument temp = new NamedArgument(name);
-		temp.addChoice(value);
+		temp.addRestrictedValue(value);
         temp.setValue(value);
         temp.setDatatype(type);
 		if(type != Argument.Datatype.STRING) {
 			checkForInvalidArguments(value);
 		}
         namedArguments.put(name, temp);
+    }
+	
+	@SuppressWarnings("unchecked")
+    public <T> T getValue(String name) {
+		if(positionalArguments.get(name) != null) {
+			PositionalArgument temp = new PositionalArgument(name);
+			temp = positionalArguments.get(name);
+			if(temp.getDatatype() == Argument.Datatype.BOOLEAN) {
+				return (T) Boolean.valueOf(temp.getValue());
+			} 
+			else if(temp.getDatatype() == Argument.Datatype.INTEGER) {
+				return (T) new Integer(temp.getValue());
+			} 
+			else if(temp.getDatatype() == Argument.Datatype.FLOAT) {
+				return (T) new Float(temp.getValue());
+			} 
+			else {
+				return (T) temp.getValue();
+			}
+        }
+		else if(namedArguments.get(name) != null) {
+			NamedArgument temp = new NamedArgument(name);
+			temp = namedArguments.get(name);
+			if(temp.getDatatype() == Argument.Datatype.BOOLEAN) {
+				return (T) Boolean.valueOf(temp.getValue());
+			} 
+			else if(temp.getDatatype() == Argument.Datatype.INTEGER) {
+				return (T) new Integer(temp.getValue());
+			} 
+			else if(temp.getDatatype() == Argument.Datatype.FLOAT) {
+				return (T) new Float(temp.getValue());
+			} 
+			else {
+				return (T) temp.getValue();
+			}
+        }
+		else {
+            throw new UnknownArgumentException("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown argument(s): " + name);
+        }
     }
 	
 	public String getPositionalArgumentValue(String name) {
@@ -53,6 +113,32 @@ public class ArgumentParser {
         NamedArgument temp = new NamedArgument(name);
         temp = namedArguments.get(name);
 		return temp.getValue();
+	}
+	
+	public void setPositionalArgumentType(String name, Argument.Datatype type) {
+        PositionalArgument temp = new PositionalArgument(name);
+        temp = positionalArguments.get(name);
+		temp.setDatatype(type);
+		positionalArguments.put(name, temp);
+	}
+	
+	public void setNamedArgumentType(String name, Argument.Datatype type) {
+        NamedArgument temp = new NamedArgument(name);
+        temp = namedArguments.get(name);
+		temp.setDatatype(type);
+		namedArguments.put(name, temp);
+	}
+	
+	public Argument.Datatype getPositionalArgumentType(String name) {
+        PositionalArgument temp = new PositionalArgument(name);
+        temp = positionalArguments.get(name);
+		return temp.getDatatype();
+	}
+	
+	public Argument.Datatype getNamedArgumentType(String name) {
+        NamedArgument temp = new NamedArgument(name);
+        temp = namedArguments.get(name);
+		return temp.getDatatype();
 	}
 	
     public void addPositionalArgumentDescription(String name, String info) {
@@ -93,117 +179,123 @@ public class ArgumentParser {
         temp = namedArguments.get(name);
 		return temp.getFlag();
 	}
-	
-	public void setNamedArgumentType(String name, Argument.Datatype type) {
-        NamedArgument temp = new NamedArgument(name);
-        temp = namedArguments.get(name);
-		temp.setDatatype(type);
-		namedArguments.put(name, temp);
-	}
-	
-	public Argument.Datatype getNamedArgumentType(String name) {
-        NamedArgument temp = new NamedArgument(name);
-        temp = namedArguments.get(name);
-		return temp.getDatatype();
-	}
 
-	public void addChoice(String name, String choice) {
+	public void addNamedRestrictedValue(String name, String value) {
 		NamedArgument temp = new NamedArgument(name);
 		temp = namedArguments.get(name);
 		temp.setRestrictedValues(true);
-		temp.addChoice(choice);
+		temp.addRestrictedValue(value);
 		namedArguments.put(name, temp);
 	}
 	
-	public ArrayList<String> getChoices(String name) {
+	public void addPositionalRestrictedValue(String name, String value) {
+		PositionalArgument temp = new PositionalArgument(name);
+		temp = positionalArguments.get(name);
+		temp.setRestrictedValues(true);
+		temp.addRestrictedValue(value);
+		positionalArguments.put(name, temp);
+	}
+	
+	public ArrayList<String> getNamedRestrictedValues(String name) {
 		NamedArgument temp = new NamedArgument(name);
 		temp = namedArguments.get(name);
-		return temp.getChoices();
-	}
-		
-	@SuppressWarnings("unchecked")
-    public <T> T getPositionalArgument(String name) {
-		Object v = 0f;
-        PositionalArgument temp = new PositionalArgument(name);
-        temp = positionalArguments.get(name);
-        if(null != temp.type) switch (temp.type) {
-            case INTEGER:
-                v = Integer.parseInt(temp.value);
-                parsePositionalArgumentInt(name);
-            case FLOAT:
-                v = Float.parseFloat(temp.value);
-                parsePositionalArgumentFloat(name);
-            case BOOLEAN:
-                v = Boolean.parseBoolean(temp.value);
-                parsePositionalArgumentBoolean(name);
-            case STRING:
-                v = temp.value;
-        }
-        return (T) v;
-    }
-    
-	@SuppressWarnings("unchecked")
-    public <T> T getNamedArgument(String name) {
-		Object v = null;
-        NamedArgument temp = new NamedArgument(name);
-        temp = namedArguments.get(name);
-        if(null != temp.type) switch (temp.type) {
-            case INTEGER:
-                v = Integer.parseInt(temp.value);
-                parseNamedArgumentInt(name);
-            case FLOAT:
-                v = Float.parseFloat(temp.value);
-                parseNamedArgumentFloat(name);
-            case BOOLEAN:
-                v = Boolean.parseBoolean(temp.value);
-                parseNamedArgumentBoolean(name);
-            case STRING:
-                v = temp.value;
-        }
-        return (T) v;
-    }
-	
-	public int parsePositionalArgumentInt(String name) {
-        PositionalArgument temp = new PositionalArgument(name);
-        temp = positionalArguments.get(name);
-		return Integer.parseInt(temp.value);
+		return temp.getRestrictedValues();
 	}
 	
-	public float parsePositionalArgumentFloat(String name) {
-        PositionalArgument temp = new PositionalArgument(name);
-        temp = positionalArguments.get(name);
-		return Float.parseFloat(temp.value);
+	public ArrayList<String> getPositionalRestrictedValues(String name) {
+		PositionalArgument temp = new PositionalArgument(name);
+		temp = positionalArguments.get(name);
+		return temp.getRestrictedValues();
 	}
 	
-	public boolean parsePositionalArgumentBoolean(String name) {
-        PositionalArgument temp = new PositionalArgument(name);
-        temp = positionalArguments.get(name);
-		return Boolean.parseBoolean(temp.value);
+	public boolean hasNamedRestrictedValues(String name) {
+		NamedArgument temp = new NamedArgument(name);
+		temp = namedArguments.get(name);
+		return temp.hasRestrictedValues();
 	}
 	
-	public int parseNamedArgumentInt(String name) {
-        NamedArgument temp = new NamedArgument(name);
-        temp = namedArguments.get(name);
-		return Integer.parseInt(temp.value);
+	public boolean hasPositionalRestrictedValues(String name) {
+		PositionalArgument temp = new PositionalArgument(name);
+		temp = positionalArguments.get(name);
+		return temp.hasRestrictedValues();
 	}
 	
-	public float parseNamedArgumentFloat(String name) {
-        NamedArgument temp = new NamedArgument(name);
-        temp = namedArguments.get(name);
-		return Float.parseFloat(temp.value);
+	public int getNumberOfNamedRestrictedValues(String name) {
+		NamedArgument temp = new NamedArgument(name);
+		temp = namedArguments.get(name);
+		return temp.restrictedValues.size();
 	}
 	
-	public boolean parseNamedArgumentBoolean(String name) {
-        NamedArgument temp = new NamedArgument(name);
-        temp = namedArguments.get(name);
-		return Boolean.parseBoolean(temp.value);
+	public int getNumberOfPositionalRestrictedValues(String name) {
+		PositionalArgument temp = new PositionalArgument(name);
+		temp = positionalArguments.get(name);
+		return temp.restrictedValues.size();
 	}
 	
+	public void setRequired(String name) {
+		NamedArgument temp = new NamedArgument(name);
+		temp = namedArguments.get(name);
+		temp.setRequired(true);
+		requiredArguments.add(name);
+		namedArguments.put(name, temp);
+	}
+
+	public boolean isRequired(String name) {
+		NamedArgument temp = new NamedArgument(name);
+		temp = namedArguments.get(name);
+		return temp.isRequired();
+	}
+	
+	public ArrayList<String> getRequiredArguments() {
+		return requiredArguments;
+	}
+	
+	public void createGroup(String name) {
+		groups.put(name, null);
+	}
+	
+	public void addToGroup(String group, String name) {
+		ArrayList<String> names = new ArrayList<>();
+		NamedArgument temp = new NamedArgument(name);
+		temp = namedArguments.get(name);
+		if(temp != null) {
+			if(!temp.isGrouped()) {
+				names.add(name);
+				temp.setGrouped(true);
+				temp.setGroup(group);
+			}
+			else {
+				throw new MutualExclusionException("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: Argument '" + name + "' already exists in group '" + temp.getGroup() + "'");
+			}
+		}
+		else {
+			throw new UnknownArgumentException("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown argument(s): " + name);
+		}
+		groups.put(group, names);
+	}
+	
+	public boolean isGrouped(String name) {
+		NamedArgument temp = new NamedArgument(name);
+		temp = namedArguments.get(name);
+		return temp.isGrouped();
+	}
+
+	public ArrayList<String> getGroupValues(String group) {
+		return groups.get(group);
+	}
+	
+	public String getGroupName(String name) {
+		NamedArgument temp = new NamedArgument(name);
+		temp = namedArguments.get(name);
+		return temp.getGroup();
+	}
+
 	public void parse(ArrayList<String> input) {
 		String argument = "";
 		String name = "";
 		String index = "";
 		float value;
+		checkForRequiredArguments(input);
         for(int i=0; i<input.size(); i++) {
             if(input.get(i).contains("--help") || input.get(i).contains("-h")) {
                 System.out.println(showHelp());
@@ -214,7 +306,7 @@ public class ArgumentParser {
 				NamedArgument temp = new NamedArgument(argument);
 				temp = namedArguments.get(argument);
 				if(temp == null) {
-					throw new UnknownArgumentException("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown arguments: " + argument);
+					throw new UnknownArgumentException("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown argument(s): " + argument);
 				}
 				temp.setFlag(true);
 				temp.setValue(input.get(i+1));
@@ -237,11 +329,10 @@ public class ArgumentParser {
 					input.set(i+1, "");
 					}
 				else {
-					throw new UnknownArgumentException("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown arguments: " + argument);
+					throw new UnknownArgumentException("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown argument(s): " + argument);
 				}
 			}
 		}
-		
 		int count = 0;
 		ArrayList<String> names = new ArrayList<>();
 		for(String arguments : positionalArguments.keySet()) {
@@ -278,7 +369,7 @@ public class ArgumentParser {
 			}
 		}
 		if(missingArguments != "") {
-			throw new MissingArgumentException("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: missing arguments: " + missingArguments);
+			throw new MissingArgumentException("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: missing argument(s): " + missingArguments);
 		}
     }
     
@@ -294,7 +385,7 @@ public class ArgumentParser {
 			}
 		}
 		if(unrecognisedArguments != "") {
-			throw new UnrecognisedArgumentException ("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unrecognised arguments: " + unrecognisedArguments);
+			throw new UnrecognisedArgumentException ("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unrecognised argument(s): " + unrecognisedArguments);
 		}
     }
 	
@@ -328,13 +419,6 @@ public class ArgumentParser {
 					break;
 				} catch (Exception f) {
 					valid = false;
-					try {
-						Boolean.parseBoolean(s);
-						valid = true;
-						break;
-					} catch (Exception h) {
-						valid = false;
-					}
 				}  
 			}
 		}
@@ -342,12 +426,38 @@ public class ArgumentParser {
 			throw new InvalidArgumentException("\nUsage: Java VolumeCalculator length width height\nVolumeCalculator.Java: error: argument width: invalid float value: " + s + "\nThe following datatypes should be supported: int, float, boolean, and String, which is the default value if type is left unspecified.");
 		}
 	}
-
-    public String showHelp() {
-        return("\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box");
-    }
 	
-	protected String typeToString(Argument.Datatype type) {
+	public void checkForRequiredArguments(ArrayList<String> in) {
+		String index = "";
+		String index2 = "";
+		String missingRequiredArguments = "";
+		ArrayList<String> temp = new ArrayList<>();
+		for(int i=0; i<in.size(); i++) {
+			if(in.get(i).startsWith("--")) {
+				index = in.get(i).replace("--", "");
+				temp.add(index);
+			}
+			else if(in.get(i).contains("-") && !in.get(i).contains("--")) {
+				index = in.get(i).replace("-", "");
+				for(int j=0; j<requiredArguments.size(); j++) {
+					if(requiredArguments.get(j).startsWith(index)) {
+						index2 = requiredArguments.get(j);
+						temp.add(index2);
+					}
+				}
+			}
+		}
+		for(int i=0; i<requiredArguments.size(); i++) {
+			if(!temp.contains(requiredArguments.get(i))) {
+				missingRequiredArguments += (requiredArguments.get(i) + " ");
+			}
+		}
+		if(missingRequiredArguments != "") {
+			throw new InvalidArgumentException("\nUsage: Java VolumeCalculator length width height\nVolumeCalculator.Java: error: Missing required argument(s): " + missingRequiredArguments);
+		}
+	}
+
+	public String typeToString(Argument.Datatype type) {
 		if (type == Argument.Datatype.FLOAT) {
 			return "float";
 		}
@@ -361,4 +471,8 @@ public class ArgumentParser {
 			return "String";
 		}
 	}
+	
+    public String showHelp() {
+        return("\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box");
+    }
 }

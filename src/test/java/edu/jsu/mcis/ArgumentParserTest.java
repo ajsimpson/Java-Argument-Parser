@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import edu.jsu.mcis.*;
 
 public class ArgumentParserTest {
 
@@ -17,57 +18,97 @@ public class ArgumentParserTest {
 		xmle = new XMLEditor();
 	}
 	
-	@Test
-	public void testGetDescriptionOfNamedArgument() {
-		p.addNamedArgument("Type");
-		p.addNamedArgumentDescription("Type", "This is Type's description.");
-		assertEquals("This is Type's description.", p.getNamedArgumentDescription("Type"));
+	/*@Test
+	public void testGetPositionalArgumentNames() {
+	
 	}
 	
 	@Test
-	public void testGetDescriptionOfPositionalArgument() {
-		p.addPositionalArgument("Type");
-		p.addPositionalArgumentDescription("Type", "This is Type's description.");
-		assertEquals("This is Type's description.", p.getPositionalArgumentDescription("Type"));
-	}
+	public void testGetNamedArgumentNames() {
+	
+	}*/
 	
 	@Test
-	public void testGetPositionalArgument() {
+	public void testGetPositionalArgumentValues() {
 		p.addPositionalArgument("length");
+		p.addPositionalArgument("width");
+		p.addPositionalArgument("cat");
+		p.addPositionalArgument("rain");
 		p.addPositionalArgumentValue("length", "7", Argument.Datatype.INTEGER);
-		assertEquals("7", p.getPositionalArgument("length"));
+		p.addPositionalArgumentValue("width", "5.2", Argument.Datatype.FLOAT);
+		p.addPositionalArgumentValue("cat", "grey", Argument.Datatype.STRING);
+		p.addPositionalArgumentValue("rain", "true", Argument.Datatype.BOOLEAN);
+		assertEquals(7, p.getValue("length"));
+		assertEquals(5.2, p.getValue("width"));
+		assertEquals("grey", p.getValue("cat"));
+		assertEquals(true, p.getValue("rain"));
 	}
 	
 	@Test
-	public void testGetNamedArgument() {
-		p.addNamedArgument("age");
-		p.addNamedArgumentValue("age", "7", Argument.Datatype.INTEGER);
-		assertEquals("7", p.getNamedArgument("age"));
+	public void testGetNamedArgumentValues() {
+		p.addNamedArgumentValue("type", "5.2", Argument.Datatype.FLOAT);
+		p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
+		p.addNamedArgumentValue("art", "3", Argument.Datatype.INTEGER);
+		p.addNamedArgumentValue("shape", "true", Argument.Datatype.BOOLEAN);
+		assertEquals(5.2, p.getValue("type"));
+		assertEquals("red", p.getValue("color"));
+		assertEquals(3, p.getValue("art"));
+		assertEquals(true, p.getValue("shape"));
 	}
 	
 	@Test
-	public void testGetArgumentValue() {
+	public void testGetPositionalValueAsString() {
 		p.addPositionalArgument("length");
 		p.addPositionalArgumentValue("length", "7", Argument.Datatype.INTEGER);
 		assertEquals("7", p.getPositionalArgumentValue("length"));
 	}
 	
 	@Test
-	public void testGetNamedValue() {
+	public void testGetNamedValueAsString() {
 		p.addNamedArgument("type");
 		p.addNamedArgumentValue("type", "box", Argument.Datatype.STRING);
 		assertEquals("box", p.getNamedArgumentValue("type"));
 	}
 	
 	@Test
-	public void testGetFlag() {
+	public void testGetNamedArgumentDataType() {
+		p.addNamedArgument("age");
+		p.addNamedArgumentValue("age", "7", Argument.Datatype.INTEGER);
+		p.setNamedArgumentType("age", Argument.Datatype.FLOAT);
+		assertEquals(Argument.Datatype.FLOAT, p.getNamedArgumentType("age"));
+	}
+	
+	@Test
+	public void testGetPositionalArgumentDataType() {
+		p.addPositionalArgument("age");
+		p.addPositionalArgumentValue("age", "7", Argument.Datatype.INTEGER);
+		p.setPositionalArgumentType("age", Argument.Datatype.FLOAT);
+		assertEquals(Argument.Datatype.FLOAT, p.getPositionalArgumentType("age"));
+	}
+	
+	@Test
+	public void testGetNamedArgumentDescription() {
+		p.addNamedArgument("Type");
+		p.addNamedArgumentDescription("Type", "This is Type's description.");
+		assertEquals("This is Type's description.", p.getNamedArgumentDescription("Type"));
+	}
+	
+	@Test
+	public void testGetPositionalArgumentDescription() {
+		p.addPositionalArgument("Type");
+		p.addPositionalArgumentDescription("Type", "This is Type's description.");
+		assertEquals("This is Type's description.", p.getPositionalArgumentDescription("Type"));
+	}
+	
+	@Test
+	public void testSetFlag() {
 		p.addNamedArgument("type");
 		p.setFlag("type", true);
 		assertEquals(true, p.getFlag("type"));
 	}
 	
 	@Test
-	public void testIfNamedArgumentIsPresent() {
+	public void testNamedArgumentIsPresent() {
 		p.addNamedArgument("color");
 		p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
 		ArrayList<String> userInput = new ArrayList<>();
@@ -78,18 +119,7 @@ public class ArgumentParserTest {
 	}
 	
 	@Test
-	public void testUseShortNameInput() {
-		p.addNamedArgument("color");
-		p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
-		ArrayList<String> userInput = new ArrayList<>();
-		userInput.add("-c");
-		userInput.add("purple");
-		p.parse(userInput);
-		assertEquals("purple", p.getNamedArgumentValue("color"));
-	}
-	
-	@Test
-	public void testIfNamedArgumentShortNameIsPresent() {
+	public void testShortNamedArgumentIsPresent() {
 		p.addNamedArgument("color");
 		p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
 		ArrayList<String> userInput = new ArrayList<>();
@@ -97,6 +127,67 @@ public class ArgumentParserTest {
 		userInput.add("purple");
 		p.parse(userInput);
 		assertEquals(true, p.getFlag("color"));
+	}
+	
+	@Test
+	public void testAddNamedRestrictedValue() {
+		p.addNamedArgument("color");
+		p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
+		p.addNamedRestrictedValue("color", "blue");
+		assertEquals(true, p.hasNamedRestrictedValues("color"));
+	}
+	
+	@Test
+	public void testNamedHasRestrictedValues() {
+		p.addNamedArgument("color");
+		p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
+		p.addNamedRestrictedValue("color", "blue");
+		assertEquals(true, p.hasNamedRestrictedValues("color"));
+	}
+	
+	@Test
+	public void testAddPositionalRestrictedValue() {
+		p.addPositionalArgument("color");
+		p.addPositionalArgumentValue("color", "red", Argument.Datatype.STRING);
+		p.addPositionalRestrictedValue("color", "blue");
+		assertEquals(true, p.hasPositionalRestrictedValues("color"));
+	}
+	
+	@Test
+	public void testPositionalHasRestrictedValues() {
+		p.addPositionalArgument("color");
+		p.addPositionalArgumentValue("color", "red", Argument.Datatype.STRING);
+		p.addPositionalRestrictedValue("color", "blue");
+		assertEquals(true, p.hasPositionalRestrictedValues("color"));
+	}
+	
+	@Test
+	public void testGetNamedRestrictedValues() {
+		p.addNamedArgument("color");
+		p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
+		p.addNamedRestrictedValue("color", "blue");
+		assert(p.getNamedRestrictedValues("color").contains("red"));
+		assert(p.getNamedRestrictedValues("color").contains("blue"));
+	}
+	
+	@Test
+	public void testGetPositionalRestrictedValues() {
+		p.addPositionalArgument("color");
+		p.addPositionalArgumentValue("color", "red", Argument.Datatype.STRING);
+		p.addPositionalRestrictedValue("color", "blue");
+		assert(p.getPositionalRestrictedValues("color").contains("red"));
+		assert(p.getPositionalRestrictedValues("color").contains("blue"));
+	}
+	
+	@Test
+	public void testShortNameInput() {
+		p.addNamedArgument("color");
+		p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
+		ArrayList<String> userInput = new ArrayList<>();
+		userInput.add("-c");
+		userInput.add("purple");
+		p.parse(userInput);
+		assertEquals("purple", p.getNamedArgumentValue("color"));
 	}
 	
 	@Test (expected = UnknownArgumentException.class)
@@ -107,34 +198,6 @@ public class ArgumentParserTest {
 		userInput.add("-f");
 		userInput.add("purple");
 		p.parse(userInput);
-	}
-	
-	@Test
-	public void testGetDifferentPositionalArgumentValues() {
-		p.addPositionalArgument("length");
-		p.addPositionalArgument("width");
-		p.addPositionalArgument("cat");
-		p.addPositionalArgument("rain");
-		p.addPositionalArgumentValue("length", "7", Argument.Datatype.INTEGER);
-		p.addPositionalArgumentValue("width", "5.2", Argument.Datatype.FLOAT);
-		p.addPositionalArgumentValue("cat", "white cat", Argument.Datatype.STRING);
-		p.addPositionalArgumentValue("rain", "true", Argument.Datatype.BOOLEAN);
-		assertEquals("7", p.getPositionalArgument("length"));
-		assertEquals("5.2", p.getPositionalArgument("width"));
-		assertEquals("white cat", p.getPositionalArgument("cat"));
-		assertEquals("true", p.getPositionalArgument("rain"));
-	}
-	
-	@Test
-	public void testGetDifferentNamedArgumentValues() {
-		p.addNamedArgumentValue("type", "5.2", Argument.Datatype.FLOAT);
-		p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
-		p.addNamedArgumentValue("art", "3", Argument.Datatype.INTEGER);
-		p.addNamedArgumentValue("shape", "true", Argument.Datatype.BOOLEAN);
-		assertEquals("5.2", p.getNamedArgument("type"));
-		assertEquals("red", p.getNamedArgument("color"));
-		assertEquals("3", p.getNamedArgument("art"));
-		assertEquals("true", p.getNamedArgument("shape"));
 	}
 	
 	@Test (expected = MissingArgumentException.class)
@@ -186,28 +249,16 @@ public class ArgumentParserTest {
 		p.parse(userInput);
 	}
 	
+	/*@Test (expected = MutualExclusionException.class)
+	public void testMutualExclusionException() {
 	
-	@Test
-	public void testAddChoice() {
-		p.addNamedArgument("color");
-		p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
-		p.addChoice("color", "blue");
-		assert(p.namedArguments.get("color").choices.contains("blue"));
-	}
-	
-	@Test
-	public void testIfArgumentHasRestrictedValues() {
-		p.addNamedArgument("color");
-		p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
-		p.addChoice("color", "blue");
-		assertEquals(true, p.namedArguments.get("color").hasRestrictedValues());
-	}
+	}*/
 	
 	@Test (expected = RestrictedValueException.class)
 	public void testRestrictedValueException() {
 		p.addNamedArgument("color");
 		p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
-		p.addChoice("color", "blue");
+		p.addNamedRestrictedValue("color", "blue");
 		ArrayList<String> userInput = new ArrayList<>();
 		userInput.add("7");
 		userInput.add("5");
@@ -223,23 +274,6 @@ public class ArgumentParserTest {
 	}
 	
 	@Test
-	public void testGetArgumentDataType() {
-		p.addNamedArgument("age");
-		p.addNamedArgumentValue("age", "7", Argument.Datatype.INTEGER);
-		p.setNamedArgumentType("age", Argument.Datatype.FLOAT);
-		assertEquals(Argument.Datatype.FLOAT, p.getNamedArgumentType("age"));
-	}
-	
-	@Test
-	public void testGetChoices() {
-		p.addNamedArgument("color");
-		p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
-		p.addChoice("color", "blue");
-		assert(p.getChoices("color").contains("red"));
-		assert(p.getChoices("color").contains("blue"));
-	}
-	
-	@Test
 	public void testTypeToString() {
 		p.addNamedArgument("color");
         p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
@@ -249,13 +283,13 @@ public class ArgumentParserTest {
         p.addNamedArgumentValue("weight", "160.5", Argument.Datatype.FLOAT);
 		p.addNamedArgument("married");
         p.addNamedArgumentValue("married", "false", Argument.Datatype.BOOLEAN);
-		assertEquals("String", p.typeToString(p.namedArguments.get("color").getDatatype()));
-		assertEquals("integer", p.typeToString(p.namedArguments.get("age").getDatatype()));
-		assertEquals("float", p.typeToString(p.namedArguments.get("weight").getDatatype()));
-		assertEquals("boolean", p.typeToString(p.namedArguments.get("married").getDatatype()));
+		assertEquals("String", p.typeToString(p.getNamedArgumentType("color")));
+		assertEquals("integer", p.typeToString(p.getNamedArgumentType("age")));
+		assertEquals("float", p.typeToString(p.getNamedArgumentType("weight")));
+		assertEquals("boolean", p.typeToString(p.getNamedArgumentType("married")));
 	}
 	
-	@Test
+	/*/@Test
 	public void testWriteAndReadArgumentsToFile() {
         p.addNamedArgument("color");
         p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
@@ -266,10 +300,10 @@ public class ArgumentParserTest {
 		userInput.add("--color");
 		userInput.add("red");
 		p.parse(userInput);
-		xmle.saveToXML("src/test/java/edu/jsu/mcis/XMLTest.xml", p);
-		xmle.loadFromXML("src/test/java/edu/jsu/mcis/XMLTest.xml");
+		XMLEditor.saveToXML("src/test/java/edu/jsu/mcis/XMLTest.xml", p);
+		XMLEditor.loadFromXML("src/test/java/edu/jsu/mcis/XMLTest.xml");
 		assertEquals("length", p.positionalArguments.get("length").getName());
 		assertEquals("color", p.namedArguments.get("color").getName());
 		assertEquals("red", p.namedArguments.get("color").getValue());
-	}
+	}*/
 }

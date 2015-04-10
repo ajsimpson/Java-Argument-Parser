@@ -2,17 +2,35 @@ package edu.jsu.mcis;
 
 public class NamedArgument extends Argument {
 
-	public boolean present = false;
+	private boolean present = false;
+	private boolean grouped = false;
+	private String groupName = "";
 	
-	public NamedArgument (String n) {
+	public NamedArgument(String n) {
 		name = n;
 	}
 	
-	void setFlag(boolean f) {
+	public void setFlag(boolean f) {
 		present = f;
 	}
 	
-	boolean getFlag() {
+	public boolean getFlag() {
 		return present;
+	}
+	
+	public void setGrouped(boolean g) {
+		grouped = g;
+	}
+	
+	public boolean isGrouped() {
+		return grouped;
+	}
+	
+	public void setGroup(String g) {
+		groupName = g;
+	}
+	
+	public String getGroup() {
+		return groupName;
 	}
 }

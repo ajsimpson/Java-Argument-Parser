@@ -1,5 +1,4 @@
-package edu.jsu.mcis;
-
+import edu.jsu.mcis.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -20,12 +19,7 @@ public class VolumeCalculator {
         p.addNamedArgument("color");
         p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
 		p.addNamedArgumentDescription("color", "color's value is a string.");
-		p.addNamedRestrictedValue("color", "blue");
-		p.setRequired("color");
-		p.createGroup("group1");
-		p.createGroup("group2");
-		p.addToGroup("group1", "color");
-		//p.addToGroup("group2", "color"); //throws MutualExclusionException
+		p.addChoice("color", "blue");
         p.addNamedArgument("age");
         p.addNamedArgumentValue("age", "22", Argument.Datatype.INTEGER);
 		p.addNamedArgumentDescription("age", "age's value is an integer.");
@@ -38,41 +32,42 @@ public class VolumeCalculator {
 		System.out.println("\nArgument values before command line input:\n");
 		
 		System.out.println("color:");
-		System.out.println("Value of color: " + p.getValue("color"));
+		System.out.println("Value of color: " + p.getNamedArgument("color"));
 		System.out.println("Is present: " + p.getFlag("color"));
 		System.out.println("\nage:");
-		System.out.println("Value of age: " + p.getValue("age"));
+		System.out.println("Value of age: " + p.getNamedArgument("age"));
 		System.out.println("Is present: " + p.getFlag("age"));
 		System.out.println("\nweight:");
-		System.out.println("Value of weight: " + p.getValue("weight")+"");
+		System.out.println("Value of weight: " + p.getNamedArgument("weight")+"");
 		System.out.println("Is present: " + p.getFlag("weight"));
 
-		System.out.println("\nValue of length: " + p.getValue("length"));
-		System.out.println("Value of width: " + p.getValue("width"));
-		System.out.println("Value of height: " + p.getValue("height"));
+		System.out.println("\nValue of length: " + p.getPositionalArgument("length"));
+		System.out.println("Value of width: " + p.getPositionalArgument("width"));
+		System.out.println("Value of height: " + p.getPositionalArgument("height"));
 
 		p.parse(userInput);
 
 		System.out.println("\nArgument values after command line input:\n");
 		
 		System.out.println("color:");
-		System.out.println("Value of color: " + p.getValue("color"));
+		System.out.println("Value of color: " + p.getNamedArgument("color"));
 		System.out.println("Is present: " + p.getFlag("color"));
 		System.out.println("\nage:");
-		System.out.println("Value of age: " + p.getValue("age"));
+		System.out.println("Value of age: " + p.getNamedArgument("age"));
 		System.out.println("Is present: " + p.getFlag("age"));
 		System.out.println("\nweight:");
-		System.out.println("Value of weight: " + p.getValue("weight"));
+		System.out.println("Value of weight: " + p.getNamedArgument("weight"));
 		System.out.println("Is present: " + p.getFlag("weight"));
 
-		System.out.println("\nValue of length: " + p.getValue("length"));
-		System.out.println("Value of width: " + p.getValue("width"));
-		System.out.println("Value of height: " + p.getValue("height"));
+		System.out.println("\nValue of length: " + p.getPositionalArgumentValue("length"));
+		System.out.println("Value of width: " + p.getPositionalArgumentValue("width"));
+		System.out.println("Value of height: " + p.getPositionalArgumentValue("height"));
 		
 		System.out.println("\nSaving to XML...");
 		XMLEditor.saveToXML("ArgumentInformation.xml", p);
 		System.out.println("\nLoading from XML...\n");
 		XMLEditor.loadFromXML("ArgumentInformation.xml");
+		
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		//p.parse(userInput);
