@@ -27,7 +27,11 @@ public class XMLEditor {
 				temp = p.positionalArguments.get(name);
 				writer.write("\t<argument type = \"positional\"" + ">\n");
 				writer.write("\t\t<name>" + p.positionalArguments.get(name).getName() + "</name>\n");
-				writer.write("\t\t<value>" + p.getValue(name) + "</value>\n");
+				writer.write("\t\t<values>\n");
+				for(int i=0; i<temp.getValues().size(); i++) {
+					writer.write("\t\t\t<value>" + temp.values.get(i) + "</value>\n");
+				}
+				writer.write("\t\t</values>\n");
 				if(p.hasPositionalRestrictedValues(name)) {
 					writer.write("\t\t<restrictedValues>\n");
 					for(int i=0; i<p.getNumberOfPositionalRestrictedValues(name); i++) {
@@ -45,7 +49,11 @@ public class XMLEditor {
 				temp = p.namedArguments.get(name);
 				writer.write("\t<argument type = \"named\"" + ">\n");
 				writer.write("\t\t<name>" + p.namedArguments.get(name).getName() + "</name>\n");
-				writer.write("\t\t<value>" + p.getValue(name) + "</value>\n");
+				writer.write("\t\t<values>\n");
+				for(int i=0; i<temp.getValues().size(); i++) {
+					writer.write("\t\t\t<value>" + temp.values.get(i) + "</value>\n");
+				}
+				writer.write("\t\t</values>\n");
 				if(p.hasNamedRestrictedValues(name)) {
 					writer.write("\t\t<restrictedValues>\n");
 					for(int i=0; i<p.getNumberOfNamedRestrictedValues(name); i++) {
@@ -68,8 +76,7 @@ public class XMLEditor {
 		}
 	}
 	
-	public static ArgumentParser loadFromXML(String file) {
-		ArgumentParser p = new ArgumentParser();
+	public static ArgumentParser loadFromXML(String file, ArgumentParser p) {
 		try {
 			File XMLFile = new File(file);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -84,16 +91,20 @@ public class XMLEditor {
 					if(e.getAttribute("type").equals("positional")) {
 						String eName = e.getElementsByTagName("name").item(0).getTextContent();
 						System.out.println("Positional argument name: " + eName); //DEMO
-						String eValue = e.getElementsByTagName("value").item(0).getTextContent();
-						System.out.println("Positional argument value: " + eValue); //DEMO
-						/*if(p.hasPositionalRestrictedValues(eName)) {
+						ArrayList<String> eValues = new ArrayList<>();
+						NodeList argumentValues = e.getElementsByTagName("value");
+						for (int k=0; k<argumentValues.getLength(); k++) {
+							System.out.println("Positional argument value: " + argumentValues.item(k).getTextContent()); //DEMO
+							eValues.add(argumentValues.item(k).getTextContent());
+						}
+						if(p.hasPositionalRestrictedValues(eName)) {
 							ArrayList<String> eRestrictedValues = new ArrayList<>();
-							NodeList restrictedValues = e.getElementsByTagName("restricted");
+							NodeList restrictedValues = e.getElementsByTagName("restrictedValue");
 							for (int k=0; k<restrictedValues.getLength(); k++) {
 								System.out.println("Positional restricted value: " + restrictedValues.item(k).getTextContent()); //DEMO
 								eRestrictedValues.add(restrictedValues.item(k).getTextContent());
 							}
-						}*/
+						}
 						String eType = e.getElementsByTagName("type").item(0).getTextContent();
 						System.out.println("Positional argument type: " + eType); //DEMO
 						String eDescription = e.getElementsByTagName("description").item(0).getTextContent();
@@ -102,31 +113,36 @@ public class XMLEditor {
 					else if(e.getAttribute("type").equals("named")) {        
 						String eName = e.getElementsByTagName("name").item(0).getTextContent();
 						System.out.println("Named argument name: " + eName); //DEMO
-						String eValue = e.getElementsByTagName("value").item(0).getTextContent();
-						/*if(p.hasNamedRestrictedValues(eName)) {
+						ArrayList<String> eValues = new ArrayList<>();
+						NodeList argumentValues = e.getElementsByTagName("value");
+						for (int k=0; k<argumentValues.getLength(); k++) {
+							System.out.println("Named argument value: " + argumentValues.item(k).getTextContent()); //DEMO
+							eValues.add(argumentValues.item(k).getTextContent());
+						}
+						if(p.hasNamedRestrictedValues(eName)) {
 							ArrayList<String> eRestrictedValues = new ArrayList<>();
-							NodeList restrictedValues = e.getElementsByTagName("restricted");
+							NodeList restrictedValues = e.getElementsByTagName("restrictedValue");
 							for (int k=0; k<restrictedValues.getLength(); k++) {
 								System.out.println("Named restricted value: " + restrictedValues.item(k).getTextContent()); //DEMO
 								eRestrictedValues.add(restrictedValues.item(k).getTextContent());
 							}
-						}*/
-						System.out.println("Named argument value: " + eValue); //DEMO
+						}
 						String eType = e.getElementsByTagName("type").item(0).getTextContent();
 						System.out.println("Named argument type: " + eType); //DEMO
 						String eDescription = e.getElementsByTagName("description").item(0).getTextContent();
 						System.out.println("Named argument description: " + eDescription); //DEMO
-						/*if(p.isGrouped(eName)) {
-							String eGroup = e.getElementsByTagName("group").item(0).getTextContent();
-							System.out.println("Named argument group: " + eGroup + "\n"); //DEMO
-						}*/
 						String eRequired = e.getElementsByTagName("required").item(0).getTextContent();
-						System.out.println("Named argument required: " + eRequired + "\n"); //DEMO
+						System.out.println("Named argument required: " + eRequired); //DEMO
+						if(p.isGrouped(eName)) {
+							String eGroup = e.getElementsByTagName("group").item(0).getTextContent();
+							System.out.println("Named argument group: " + eGroup); //DEMO
+						}
+						System.out.println("\n");
 					}
 				}
 			}
 		} catch(SAXException | ParserConfigurationException | IOException e) {
-			throw new FileErrorException("File not found!");
+			throw new FileErrorException("File not found!"+e);
 		}
 		return p;
 	}

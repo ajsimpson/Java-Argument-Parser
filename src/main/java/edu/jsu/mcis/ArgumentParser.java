@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
+/**
+*	
+*/
 public class ArgumentParser {
 	
     protected Map<String, PositionalArgument> positionalArguments;
@@ -12,6 +15,9 @@ public class ArgumentParser {
 	private Map<String, ArrayList<String>> groups;
 	private ArrayList<String> requiredArguments;
     
+	/**
+	*
+	*/
 	public ArgumentParser() {
 		positionalArguments = new HashMap<>();
 		namedArguments = new HashMap<>();
@@ -20,16 +26,25 @@ public class ArgumentParser {
 		requiredArguments = new ArrayList<>();
 	}
 	
+	/**
+	*
+	*/
     public void addPositionalArgument(String name) {
         positionalArguments.put(name, new PositionalArgument(name));
     }
     
+	/**
+	*
+	*/
     public void addNamedArgument(String name) {
         namedArguments.put(name, new NamedArgument(name));
 		String shortName = "" + name.charAt(0);
 		namedArgumentShortNames.put(shortName, name);
     }
 	
+	/**
+	*
+	*/
 	public ArrayList<String> getPositionalArgumentNames() {
 		ArrayList<String> positionalArgumentNames = new ArrayList<>();
 		for (Map.Entry<String, PositionalArgument> entry : positionalArguments.entrySet()) {
@@ -38,6 +53,9 @@ public class ArgumentParser {
 		return positionalArgumentNames;
 	}
 	
+	/**
+	*
+	*/
 	public ArrayList<String> getNamedArgumentNames() {
 		ArrayList<String> namedArgumentNames = new ArrayList<>();
 		for (Map.Entry<String, NamedArgument> entry : namedArguments.entrySet()) {
@@ -46,17 +64,23 @@ public class ArgumentParser {
 		return namedArgumentNames;
 	}
 	
+	/**
+	*
+	*/
     public void addPositionalArgumentValue(String name, String value, Argument.Datatype type) {
         PositionalArgument temp = new PositionalArgument(name);
-        temp.setValue(value);
+		temp.addValue(value);
         temp.setDatatype(type);
         positionalArguments.put(name,temp);
     }
     
+	/**
+	*
+	*/
     public void addNamedArgumentValue(String name, String value, Argument.Datatype type) {
         NamedArgument temp = new NamedArgument(name);
 		temp.addRestrictedValue(value);
-        temp.setValue(value);
+		temp.addValue(value);
         temp.setDatatype(type);
 		if(type != Argument.Datatype.STRING) {
 			checkForInvalidArguments(value);
@@ -64,38 +88,41 @@ public class ArgumentParser {
         namedArguments.put(name, temp);
     }
 	
+	/**
+	*
+	*/
 	@SuppressWarnings("unchecked")
-    public <T> T getValue(String name) {
+    public <T> T getValue(String name, int index) {
 		if(positionalArguments.get(name) != null) {
 			PositionalArgument temp = new PositionalArgument(name);
 			temp = positionalArguments.get(name);
 			if(temp.getDatatype() == Argument.Datatype.BOOLEAN) {
-				return (T) Boolean.valueOf(temp.getValue());
+				return (T) Boolean.valueOf(temp.getValue(index));
 			} 
 			else if(temp.getDatatype() == Argument.Datatype.INTEGER) {
-				return (T) new Integer(temp.getValue());
+				return (T) new Integer(temp.getValue(index));
 			} 
 			else if(temp.getDatatype() == Argument.Datatype.FLOAT) {
-				return (T) new Float(temp.getValue());
+				return (T) new Float(temp.getValue(index));
 			} 
 			else {
-				return (T) temp.getValue();
+				return (T) temp.getValue(index);
 			}
         }
 		else if(namedArguments.get(name) != null) {
 			NamedArgument temp = new NamedArgument(name);
 			temp = namedArguments.get(name);
 			if(temp.getDatatype() == Argument.Datatype.BOOLEAN) {
-				return (T) Boolean.valueOf(temp.getValue());
+				return (T) Boolean.valueOf(temp.getValue(index));
 			} 
 			else if(temp.getDatatype() == Argument.Datatype.INTEGER) {
-				return (T) new Integer(temp.getValue());
+				return (T) new Integer(temp.getValue(index));
 			} 
 			else if(temp.getDatatype() == Argument.Datatype.FLOAT) {
-				return (T) new Float(temp.getValue());
+				return (T) new Float(temp.getValue(index));
 			} 
 			else {
-				return (T) temp.getValue();
+				return (T) temp.getValue(index);
 			}
         }
 		else {
@@ -103,18 +130,27 @@ public class ArgumentParser {
         }
     }
 	
-	public String getPositionalArgumentValue(String name) {
+	/**
+	*
+	*/
+	public String getPositionalArgumentValue(String name, int v) {
         PositionalArgument temp = new PositionalArgument(name);
         temp = positionalArguments.get(name);
-		return temp.getValue();
+		return temp.getValue(v);
 	}
 	
-	public String getNamedArgumentValue(String name) {
+	/**
+	*
+	*/
+	public String getNamedArgumentValue(String name, int v) {
         NamedArgument temp = new NamedArgument(name);
         temp = namedArguments.get(name);
-		return temp.getValue();
+		return temp.getValue(v);
 	}
 	
+	/**
+	*
+	*/
 	public void setPositionalArgumentType(String name, Argument.Datatype type) {
         PositionalArgument temp = new PositionalArgument(name);
         temp = positionalArguments.get(name);
@@ -122,6 +158,9 @@ public class ArgumentParser {
 		positionalArguments.put(name, temp);
 	}
 	
+	/**
+	*
+	*/
 	public void setNamedArgumentType(String name, Argument.Datatype type) {
         NamedArgument temp = new NamedArgument(name);
         temp = namedArguments.get(name);
@@ -129,18 +168,27 @@ public class ArgumentParser {
 		namedArguments.put(name, temp);
 	}
 	
+	/**
+	*
+	*/
 	public Argument.Datatype getPositionalArgumentType(String name) {
         PositionalArgument temp = new PositionalArgument(name);
         temp = positionalArguments.get(name);
 		return temp.getDatatype();
 	}
 	
+	/**
+	*
+	*/
 	public Argument.Datatype getNamedArgumentType(String name) {
         NamedArgument temp = new NamedArgument(name);
         temp = namedArguments.get(name);
 		return temp.getDatatype();
 	}
 	
+	/**
+	*
+	*/
     public void addPositionalArgumentDescription(String name, String info) {
         PositionalArgument temp = new PositionalArgument(name);
 		temp = positionalArguments.get(name);
@@ -148,12 +196,18 @@ public class ArgumentParser {
         positionalArguments.put(name, temp);
     }
 	
+	/**
+	*
+	*/
     public String getPositionalArgumentDescription(String name) {
         PositionalArgument temp = new PositionalArgument(name);
 		temp = positionalArguments.get(name);
         return temp.getInfo();
     }
 	
+	/**
+	*
+	*/
     public void addNamedArgumentDescription(String name, String info) {
         NamedArgument temp = new NamedArgument(name);
 		temp = namedArguments.get(name);
@@ -161,12 +215,18 @@ public class ArgumentParser {
         namedArguments.put(name, temp);
     }
 	
+	/**
+	*
+	*/
     public String getNamedArgumentDescription(String name) {
         NamedArgument temp = new NamedArgument(name);
 		temp = namedArguments.get(name);
         return temp.getInfo();
     }
 	
+	/**
+	*
+	*/
 	public void setFlag(String name, boolean flag) {
         NamedArgument temp = new NamedArgument(name);
         temp = namedArguments.get(name);
@@ -174,64 +234,96 @@ public class ArgumentParser {
 		namedArguments.put(name, temp);
 	}
 	
+	/**
+	*
+	*/
 	public boolean getFlag(String name) {
         NamedArgument temp = new NamedArgument(name);
         temp = namedArguments.get(name);
 		return temp.getFlag();
 	}
 
+	/**
+	*
+	*/
 	public void addNamedRestrictedValue(String name, String value) {
 		NamedArgument temp = new NamedArgument(name);
 		temp = namedArguments.get(name);
 		temp.setRestrictedValues(true);
 		temp.addRestrictedValue(value);
+		temp.addValue(value);
 		namedArguments.put(name, temp);
 	}
 	
+	/**
+	*
+	*/
 	public void addPositionalRestrictedValue(String name, String value) {
 		PositionalArgument temp = new PositionalArgument(name);
 		temp = positionalArguments.get(name);
 		temp.setRestrictedValues(true);
 		temp.addRestrictedValue(value);
+		temp.addValue(value);
 		positionalArguments.put(name, temp);
 	}
 	
+	/**
+	*
+	*/
 	public ArrayList<String> getNamedRestrictedValues(String name) {
 		NamedArgument temp = new NamedArgument(name);
 		temp = namedArguments.get(name);
 		return temp.getRestrictedValues();
 	}
 	
+	/**
+	*
+	*/
 	public ArrayList<String> getPositionalRestrictedValues(String name) {
 		PositionalArgument temp = new PositionalArgument(name);
 		temp = positionalArguments.get(name);
 		return temp.getRestrictedValues();
 	}
 	
+	/**
+	*
+	*/
 	public boolean hasNamedRestrictedValues(String name) {
 		NamedArgument temp = new NamedArgument(name);
 		temp = namedArguments.get(name);
 		return temp.hasRestrictedValues();
 	}
 	
+	/**
+	*
+	*/
 	public boolean hasPositionalRestrictedValues(String name) {
 		PositionalArgument temp = new PositionalArgument(name);
 		temp = positionalArguments.get(name);
 		return temp.hasRestrictedValues();
 	}
 	
+	/**
+	*
+	*/
 	public int getNumberOfNamedRestrictedValues(String name) {
 		NamedArgument temp = new NamedArgument(name);
 		temp = namedArguments.get(name);
 		return temp.restrictedValues.size();
 	}
 	
+	/**
+	*
+	*/
 	public int getNumberOfPositionalRestrictedValues(String name) {
 		PositionalArgument temp = new PositionalArgument(name);
 		temp = positionalArguments.get(name);
 		return temp.restrictedValues.size();
 	}
 	
+	/**
+	*
+	*/
 	public void setRequired(String name) {
 		NamedArgument temp = new NamedArgument(name);
 		temp = namedArguments.get(name);
@@ -240,20 +332,32 @@ public class ArgumentParser {
 		namedArguments.put(name, temp);
 	}
 
+	/**
+	*
+	*/
 	public boolean isRequired(String name) {
 		NamedArgument temp = new NamedArgument(name);
 		temp = namedArguments.get(name);
 		return temp.isRequired();
 	}
 	
-	public ArrayList<String> getRequiredArguments() {
+	/**
+	*
+	*/
+	public ArrayList<String> getRequiredArguments() {	//not working
 		return requiredArguments;
 	}
 	
+	/**
+	*
+	*/
 	public void createGroup(String name) {
 		groups.put(name, null);
 	}
 	
+	/**
+	*
+	*/
 	public void addToGroup(String group, String name) {
 		ArrayList<String> names = new ArrayList<>();
 		NamedArgument temp = new NamedArgument(name);
@@ -274,22 +378,63 @@ public class ArgumentParser {
 		groups.put(group, names);
 	}
 	
+	/**
+	*
+	*/
 	public boolean isGrouped(String name) {
 		NamedArgument temp = new NamedArgument(name);
 		temp = namedArguments.get(name);
 		return temp.isGrouped();
 	}
 
+	/**
+	*
+	*/
 	public ArrayList<String> getGroupValues(String group) {
 		return groups.get(group);
 	}
 	
+	/**
+	*
+	*/
 	public String getGroupName(String name) {
 		NamedArgument temp = new NamedArgument(name);
 		temp = namedArguments.get(name);
 		return temp.getGroup();
 	}
+	
+	/**
+	*
+	*/
+	public ArrayList<String> getGroups() {
+		ArrayList<String> groupNames = new ArrayList<>();
+		for (Map.Entry<String, ArrayList<String>> entry : groups.entrySet()) {
+			groupNames.add(entry.getKey());
+		}
+		return groupNames;
+	}
+	
+	/**
+	*
+	*/
+	public ArrayList<String> getPositionalValues(String name) {
+		PositionalArgument temp = new PositionalArgument(name);
+		temp = positionalArguments.get(name);
+		return temp.getValues();
+	}
+	
+	/**
+	*
+	*/
+	public ArrayList<String> getNamedValues(String name) {
+		NamedArgument temp = new NamedArgument(name);
+		temp = namedArguments.get(name);
+		return temp.getValues();
+	}
 
+	/**
+	*
+	*/
 	public void parse(ArrayList<String> input) {
 		String argument = "";
 		String name = "";
@@ -309,7 +454,7 @@ public class ArgumentParser {
 					throw new UnknownArgumentException("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown argument(s): " + argument);
 				}
 				temp.setFlag(true);
-				temp.setValue(input.get(i+1));
+				temp.addValue(input.get(i+1));
 				temp.isRestrictedValue(input.get(i+1));
 				namedArguments.put(argument, temp);
 				input.set(i, "");
@@ -322,7 +467,7 @@ public class ArgumentParser {
 					NamedArgument temp = new NamedArgument(name);
 					temp = namedArguments.get(name);
 					temp.setFlag(true);
-					temp.setValue(input.get(i+1));
+					temp.addValue(input.get(i+1));
 					temp.isRestrictedValue(input.get(i+1));
 					namedArguments.put(name, temp);
 					input.set(i, "");
@@ -345,7 +490,7 @@ public class ArgumentParser {
 					argument = names.get(count);
 					PositionalArgument temp = new PositionalArgument(argument);
 					temp = positionalArguments.get(argument);
-					temp.setValue(input.get(i));
+					temp.addValue(input.get(i));
 					positionalArguments.put(argument, temp);
 					input.set(i, "");
 					count++;
@@ -358,13 +503,16 @@ public class ArgumentParser {
 		checkForMissingArguments(input);
 		checkForUnrecognisedArguments(input);
 	}
-	
+
+	/**
+	*
+	*/
     public void checkForMissingArguments(ArrayList<String> s) {
         String missingArguments = "";
 		for(String argument : positionalArguments.keySet()) {
 			PositionalArgument temp = new PositionalArgument(argument);
 			temp = positionalArguments.get(argument);
-			if(temp.getValue() == "") {
+			if(temp.getValue(0) == "") {
 				missingArguments += temp.getName() + " ";
 			}
 		}
@@ -373,6 +521,9 @@ public class ArgumentParser {
 		}
     }
     
+	/**
+	*
+	*/
     public void checkForUnrecognisedArguments(ArrayList<String> s) {
         String unrecognisedArguments = "";
 		float value;
@@ -389,6 +540,9 @@ public class ArgumentParser {
 		}
     }
 	
+	/**
+	*
+	*/
 	public void checkForInvalidInput(ArrayList<String> s) {
 		String invalidArguments = "";
 		float value;
@@ -404,6 +558,9 @@ public class ArgumentParser {
 		}
 	}
 	
+	/**
+	*
+	*/
 	public void checkForInvalidArguments(String s) {
 		boolean valid = true;
 		while(true) {
@@ -427,6 +584,9 @@ public class ArgumentParser {
 		}
 	}
 	
+	/**
+	*
+	*/
 	public void checkForRequiredArguments(ArrayList<String> in) {
 		String index = "";
 		String index2 = "";
@@ -457,6 +617,9 @@ public class ArgumentParser {
 		}
 	}
 
+	/**
+	*
+	*/
 	public String typeToString(Argument.Datatype type) {
 		if (type == Argument.Datatype.FLOAT) {
 			return "float";
@@ -472,6 +635,9 @@ public class ArgumentParser {
 		}
 	}
 	
+	/**
+	*
+	*/
     public String showHelp() {
         return("\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box");
     }

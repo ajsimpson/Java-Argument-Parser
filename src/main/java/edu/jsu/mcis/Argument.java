@@ -12,17 +12,37 @@ public class Argument {
 	protected boolean containsRestrictedValues = false;
 	protected ArrayList<String> restrictedValues = new ArrayList<>();
 	protected boolean required = false;
+	protected ArrayList<String> values = new ArrayList<>();
+	
+	public Argument() {
+		values.add("0");
+	}
 	
 	public String getName(){
 		return name;
 	}
 	
-	public void setValue(String v){
-		value = v;
+	public void addValue(String v) {
+		if(values.get(0) == "0") {
+			values.set(0, v);
+		}
+		else if(!values.contains(v)) {
+			values.add(v);
+		}
 	}
 	
-	public String getValue(){
-		return value;
+	public String getValue(int v){
+		return values.get(v);
+	}
+	
+	public void replaceValue(String v, int i) {
+		if(values.size() >= i) {
+			values.set(i, v);
+		}
+	}
+	
+	public ArrayList<String> getValues() {
+		return values;
 	}
 	
 	public void setInfo(String i){
