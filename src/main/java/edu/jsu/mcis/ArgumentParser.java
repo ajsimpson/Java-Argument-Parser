@@ -71,6 +71,9 @@ public class ArgumentParser {
         PositionalArgument temp = new PositionalArgument(name);
 		temp.addValue(value);
         temp.setDatatype(type);
+        if(type != Argument.Datatype.STRING) {
+            checkForInvalidArguments(value);
+        }
         positionalArguments.put(name,temp);
     }
     
@@ -512,7 +515,7 @@ public class ArgumentParser {
 		for(String argument : positionalArguments.keySet()) {
 			PositionalArgument temp = new PositionalArgument(argument);
 			temp = positionalArguments.get(argument);
-			if(temp.getValue(0) == "") {
+			if(temp.getValue(0) == "0") {
 				missingArguments += temp.getName() + " ";
 			}
 		}
