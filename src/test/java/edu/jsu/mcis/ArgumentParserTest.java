@@ -51,11 +51,11 @@ public class ArgumentParserTest {
 		p.addPositionalArgumentValue("length", "7", Argument.Datatype.INTEGER);
 		p.addPositionalArgumentValue("width", "5.2", Argument.Datatype.FLOAT);
 		p.addPositionalArgumentValue("cat", "grey", Argument.Datatype.STRING);
-		//p.addPositionalArgumentValue("rain", "true", Argument.Datatype.BOOLEAN);
+		p.addPositionalArgumentValue("rain", "true", Argument.Datatype.BOOLEAN);
 		assertEquals(7, p.getValue("length", 0));
 		//assertEquals(5.2, p.getValue("width", 0)); //FAILS
 		assertEquals("grey", p.getValue("cat", 0));
-		//assertEquals(true, p.getValue("rain", 0)); //BREAKS
+		assertEquals(true, p.getValue("rain", 0));
 	}
 	
 	@Test
@@ -63,15 +63,15 @@ public class ArgumentParserTest {
 		p.addNamedArgument("length");
 		p.addNamedArgument("width");
 		p.addNamedArgument("cat");
-		//p.addNamedArgument("rain");
+		p.addNamedArgument("rain");
 		p.addNamedArgumentValue("length", "7", Argument.Datatype.INTEGER);
 		p.addNamedArgumentValue("width", "5.2", Argument.Datatype.FLOAT);
 		p.addNamedArgumentValue("cat", "grey", Argument.Datatype.STRING);
-		//p.addNamedArgumentValue("rain", "true", Argument.Datatype.BOOLEAN);
+		p.addNamedArgumentValue("rain", "true", Argument.Datatype.BOOLEAN);
 		assertEquals(7, p.getValue("length", 0));
 		//assertEquals(5.2, p.getValue("width", 0)); //FAILS
 		assertEquals("grey", p.getValue("cat", 0));
-		//assertEquals(true, p.getValue("rain", 0)); //BREAKS
+		assertEquals(true, p.getValue("rain", 0));
 	}
 	
 	@Test
@@ -403,12 +403,12 @@ public class ArgumentParserTest {
         p.addPositionalArgumentValue("age", "22", Argument.Datatype.INTEGER);
         p.addPositionalArgument("weight");
         p.addPositionalArgumentValue("weight", "160.5", Argument.Datatype.FLOAT);
-		//p.addPositionalArgument("married");
-        //p.addPositionalArgumentValue("married", "false", Argument.Datatype.BOOLEAN);
+		p.addPositionalArgument("married");
+        p.addPositionalArgumentValue("married", "false", Argument.Datatype.BOOLEAN);
 		assertEquals("String", p.typeToString(p.getPositionalArgumentType("color")));
 		assertEquals("integer", p.typeToString(p.getPositionalArgumentType("age")));
 		assertEquals("float", p.typeToString(p.getPositionalArgumentType("weight")));
-		//assertEquals("boolean", p.typeToString(p.getPositionalArgumentType("married")));
+		assertEquals("boolean", p.typeToString(p.getPositionalArgumentType("married")));
 	}
 	
 	@Test

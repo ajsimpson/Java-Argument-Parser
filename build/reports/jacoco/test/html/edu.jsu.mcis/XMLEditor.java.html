@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>XMLEditor.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Operation_Make_A_Better_Argument_Parser_Than_Everyone_Else</a> &gt; <a href="index.source.html" class="el_package">edu.jsu.mcis</a> &gt; <span class="el_source">XMLEditor.java</span></div><h1>XMLEditor.java</h1><pre class="source lang-java linenums">package edu.jsu.mcis;
+
+import java.io.*;
+import java.util.*;
+import javax.xml.stream.*;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.DOMException;
+import org.xml.sax.SAXException;
+
+<span class="fc" id="L16">public class XMLEditor {</span>
+
+	 public static void saveToXML(String fileName, ArgumentParser p) {
+		try {
+			PrintWriter writer;
+<span class="fc" id="L21">			writer = new PrintWriter(fileName);</span>
+<span class="fc" id="L22">			writer.write(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot;?&gt;\n&quot;);</span>
+<span class="fc" id="L23">			writer.write(&quot;&lt;arguments&gt;\n&quot;);</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">			for(Map.Entry&lt;String, PositionalArgument&gt; entry : p.positionalArguments.entrySet()) {</span>
+<span class="fc" id="L25">				String name = entry.getKey();</span>
+<span class="fc" id="L26">				PositionalArgument temp = new PositionalArgument(name);</span>
+<span class="fc" id="L27">				temp = p.positionalArguments.get(name);</span>
+<span class="fc" id="L28">				writer.write(&quot;\t&lt;argument type = \&quot;positional\&quot;&quot; + &quot;&gt;\n&quot;);</span>
+<span class="fc" id="L29">				writer.write(&quot;\t\t&lt;name&gt;&quot; + p.positionalArguments.get(name).getName() + &quot;&lt;/name&gt;\n&quot;);</span>
+<span class="fc" id="L30">				writer.write(&quot;\t\t&lt;values&gt;\n&quot;);</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">				for(int i=0; i&lt;temp.getValues().size(); i++) {</span>
+<span class="fc" id="L32">					writer.write(&quot;\t\t\t&lt;value&gt;&quot; + temp.values.get(i) + &quot;&lt;/value&gt;\n&quot;);</span>
+				}
+<span class="fc" id="L34">				writer.write(&quot;\t\t&lt;/values&gt;\n&quot;);</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">				if(p.hasPositionalRestrictedValues(name)) {</span>
+<span class="nc" id="L36">					writer.write(&quot;\t\t&lt;restrictedValues&gt;\n&quot;);</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">					for(int i=0; i&lt;p.getNumberOfPositionalRestrictedValues(name); i++) {</span>
+<span class="nc" id="L38">						writer.write(&quot;\t\t\t&lt;restrictedValue&gt;&quot; + temp.restrictedValues.get(i) + &quot;&lt;/restrictedValue&gt;\n&quot;);</span>
+					}
+<span class="nc" id="L40">					writer.write(&quot;\t\t&lt;/restrictedValues&gt;\n&quot;);</span>
+				}
+<span class="fc" id="L42">				writer.write(&quot;\t\t&lt;type&gt;&quot; + p.typeToString(p.getPositionalArgumentType(name)) + &quot;&lt;/type&gt;\n&quot;);</span>
+<span class="fc" id="L43">				writer.write(&quot;\t\t&lt;description&gt;&quot; + p.getPositionalArgumentDescription(name) + &quot;&lt;/description&gt;\n&quot;);</span>
+<span class="fc" id="L44">				writer.write(&quot;\t&lt;/argument&gt;\n&quot;);</span>
+<span class="fc" id="L45">			}</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">			for(Map.Entry&lt;String, NamedArgument&gt; entry : p.namedArguments.entrySet()) {</span>
+<span class="fc" id="L47">				String name = entry.getKey();</span>
+<span class="fc" id="L48">				NamedArgument temp = new NamedArgument(name);</span>
+<span class="fc" id="L49">				temp = p.namedArguments.get(name);</span>
+<span class="fc" id="L50">				writer.write(&quot;\t&lt;argument type = \&quot;named\&quot;&quot; + &quot;&gt;\n&quot;);</span>
+<span class="fc" id="L51">				writer.write(&quot;\t\t&lt;name&gt;&quot; + p.namedArguments.get(name).getName() + &quot;&lt;/name&gt;\n&quot;);</span>
+<span class="fc" id="L52">				writer.write(&quot;\t\t&lt;values&gt;\n&quot;);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">				for(int i=0; i&lt;temp.getValues().size(); i++) {</span>
+<span class="fc" id="L54">					writer.write(&quot;\t\t\t&lt;value&gt;&quot; + temp.values.get(i) + &quot;&lt;/value&gt;\n&quot;);</span>
+				}
+<span class="fc" id="L56">				writer.write(&quot;\t\t&lt;/values&gt;\n&quot;);</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">				if(p.hasNamedRestrictedValues(name)) {</span>
+<span class="fc" id="L58">					writer.write(&quot;\t\t&lt;restrictedValues&gt;\n&quot;);</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">					for(int i=0; i&lt;p.getNumberOfNamedRestrictedValues(name); i++) {</span>
+<span class="fc" id="L60">						writer.write(&quot;\t\t\t&lt;restrictedValue&gt;&quot; + temp.restrictedValues.get(i) + &quot;&lt;/restrictedValue&gt;\n&quot;);</span>
+					}
+<span class="fc" id="L62">					writer.write(&quot;\t\t&lt;/restrictedValues&gt;\n&quot;);</span>
+				}
+<span class="fc" id="L64">				writer.write(&quot;\t\t&lt;type&gt;&quot; + p.typeToString(p.getNamedArgumentType(name)) + &quot;&lt;/type&gt;\n&quot;);</span>
+<span class="fc" id="L65">				writer.write(&quot;\t\t&lt;description&gt;&quot; + p.getNamedArgumentDescription(name) + &quot;&lt;/description&gt;\n&quot;);</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">				if(p.isGrouped(name)) {</span>
+<span class="fc" id="L67">					writer.write(&quot;\t\t&lt;group&gt;&quot; + p.getGroupName(name) + &quot;&lt;/group&gt;\n&quot;);</span>
+				}
+<span class="fc" id="L69">				writer.write(&quot;\t\t&lt;required&gt;&quot; + String.valueOf(p.isRequired(name)) + &quot;&lt;/required&gt;\n&quot;);</span>
+<span class="fc" id="L70">				writer.write(&quot;\t&lt;/argument&gt;\n&quot;);</span>
+<span class="fc" id="L71">			}</span>
+<span class="fc" id="L72">			writer.write(&quot;&lt;/arguments&gt;&quot;);</span>
+<span class="fc" id="L73">			writer.close();</span>
+<span class="nc" id="L74">		} catch(FileNotFoundException e) {</span>
+<span class="nc" id="L75">			throw new FileErrorException(&quot;File could not be saved!&quot;);</span>
+<span class="fc" id="L76">		}</span>
+<span class="fc" id="L77">	}</span>
+	
+	public static ArgumentParser loadFromXML(String file, ArgumentParser p) {
+		try {
+<span class="fc" id="L81">			File XMLFile = new File(file);</span>
+<span class="fc" id="L82">			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();</span>
+<span class="fc" id="L83">			DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();</span>
+<span class="fc" id="L84">			Document XMLDoc = docBuilder.parse(XMLFile);</span>
+<span class="fc" id="L85">			XMLDoc.getDocumentElement().normalize();</span>
+<span class="fc" id="L86">			NodeList nodeList = XMLDoc.getElementsByTagName(&quot;argument&quot;);</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">			for(int i=0; i&lt;nodeList.getLength(); i++) {</span>
+<span class="fc" id="L88">				Node node = nodeList.item(i);</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">				if(node.getNodeType() == Node.ELEMENT_NODE) {</span>
+<span class="fc" id="L90">					Element e = (Element) node;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">					if(e.getAttribute(&quot;type&quot;).equals(&quot;positional&quot;)) {</span>
+<span class="fc" id="L92">						String eName = e.getElementsByTagName(&quot;name&quot;).item(0).getTextContent();</span>
+<span class="fc" id="L93">						System.out.println(&quot;Positional argument name: &quot; + eName); //DEMO</span>
+<span class="fc" id="L94">						ArrayList&lt;String&gt; eValues = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L95">						NodeList argumentValues = e.getElementsByTagName(&quot;value&quot;);</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">						for (int k=0; k&lt;argumentValues.getLength(); k++) {</span>
+<span class="fc" id="L97">							System.out.println(&quot;Positional argument value: &quot; + argumentValues.item(k).getTextContent()); //DEMO</span>
+<span class="fc" id="L98">							eValues.add(argumentValues.item(k).getTextContent());</span>
+						}
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">						if(p.hasPositionalRestrictedValues(eName)) {</span>
+<span class="nc" id="L101">							ArrayList&lt;String&gt; eRestrictedValues = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L102">							NodeList restrictedValues = e.getElementsByTagName(&quot;restrictedValue&quot;);</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">							for (int k=0; k&lt;restrictedValues.getLength(); k++) {</span>
+<span class="nc" id="L104">								System.out.println(&quot;Positional restricted value: &quot; + restrictedValues.item(k).getTextContent()); //DEMO</span>
+<span class="nc" id="L105">								eRestrictedValues.add(restrictedValues.item(k).getTextContent());</span>
+							}
+						}
+<span class="fc" id="L108">						String eType = e.getElementsByTagName(&quot;type&quot;).item(0).getTextContent();</span>
+<span class="fc" id="L109">						System.out.println(&quot;Positional argument type: &quot; + eType); //DEMO</span>
+<span class="fc" id="L110">						String eDescription = e.getElementsByTagName(&quot;description&quot;).item(0).getTextContent();</span>
+<span class="fc" id="L111">						System.out.println(&quot;Positional argument description: &quot; + eDescription + &quot;\n&quot;); //DEMO</span>
+<span class="fc" id="L112">					}</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">					else if(e.getAttribute(&quot;type&quot;).equals(&quot;named&quot;)) {        </span>
+<span class="fc" id="L114">						String eName = e.getElementsByTagName(&quot;name&quot;).item(0).getTextContent();</span>
+<span class="fc" id="L115">						System.out.println(&quot;Named argument name: &quot; + eName); //DEMO</span>
+<span class="fc" id="L116">						ArrayList&lt;String&gt; eValues = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L117">						NodeList argumentValues = e.getElementsByTagName(&quot;value&quot;);</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">						for (int k=0; k&lt;argumentValues.getLength(); k++) {</span>
+<span class="fc" id="L119">							System.out.println(&quot;Named argument value: &quot; + argumentValues.item(k).getTextContent()); //DEMO</span>
+<span class="fc" id="L120">							eValues.add(argumentValues.item(k).getTextContent());</span>
+						}
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">						if(p.hasNamedRestrictedValues(eName)) {</span>
+<span class="fc" id="L123">							ArrayList&lt;String&gt; eRestrictedValues = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L124">							NodeList restrictedValues = e.getElementsByTagName(&quot;restrictedValue&quot;);</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">							for (int k=0; k&lt;restrictedValues.getLength(); k++) {</span>
+<span class="fc" id="L126">								System.out.println(&quot;Named restricted value: &quot; + restrictedValues.item(k).getTextContent()); //DEMO</span>
+<span class="fc" id="L127">								eRestrictedValues.add(restrictedValues.item(k).getTextContent());</span>
+							}
+						}
+<span class="fc" id="L130">						String eType = e.getElementsByTagName(&quot;type&quot;).item(0).getTextContent();</span>
+<span class="fc" id="L131">						System.out.println(&quot;Named argument type: &quot; + eType); //DEMO</span>
+<span class="fc" id="L132">						String eDescription = e.getElementsByTagName(&quot;description&quot;).item(0).getTextContent();</span>
+<span class="fc" id="L133">						System.out.println(&quot;Named argument description: &quot; + eDescription); //DEMO</span>
+<span class="fc" id="L134">						String eRequired = e.getElementsByTagName(&quot;required&quot;).item(0).getTextContent();</span>
+<span class="fc" id="L135">						System.out.println(&quot;Named argument required: &quot; + eRequired); //DEMO</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">						if(p.isGrouped(eName)) {</span>
+<span class="fc" id="L137">							String eGroup = e.getElementsByTagName(&quot;group&quot;).item(0).getTextContent();</span>
+<span class="fc" id="L138">							System.out.println(&quot;Named argument group: &quot; + eGroup); //DEMO</span>
+						}
+<span class="fc" id="L140">						System.out.println(&quot;\n&quot;);</span>
+					}
+				}
+			}
+<span class="nc" id="L144">		} catch(SAXException | ParserConfigurationException | IOException e) {</span>
+<span class="nc" id="L145">			throw new FileErrorException(&quot;File not found!&quot;+e);</span>
+<span class="fc" id="L146">		}</span>
+<span class="fc" id="L147">		return p;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

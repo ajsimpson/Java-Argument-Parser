@@ -580,6 +580,13 @@ public class ArgumentParser {
 				} catch (Exception f) {
 					valid = false;
 				}  
+				try {
+					Boolean.parseBoolean(s);
+					valid = true;
+					break;
+					} catch (Exception g) {
+						valid = false;
+					}
 			}
 		}
 		if(!valid) {
