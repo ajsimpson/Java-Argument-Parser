@@ -6,56 +6,48 @@ public class ArgumentParserKeywords {
 
 	ArgumentParser p = new ArgumentParser();
 	
-	public void startProgramWithArguments(String[] args) {
-		ArrayList<String> userInput = new ArrayList<>();
-		userInput.addAll(Arrays.asList(args));
-		p.parse(userInput);
-	}
-	
-	public void startFirstTest(String[] args) {
-		ArrayList<String> userInput = new ArrayList<>();
-		userInput.addAll(Arrays.asList(args));
+	public void startFirstTest() {
+		ArrayList<String> input = new ArrayList<>(Arrays.asList("7", "5", "2"));
 		p.addPositionalArgument("length");
 		p.addPositionalArgument("width");
 		p.addPositionalArgument("height");
-		p.parse(userInput);
+		p.parse(input);
 	}
 	
-	public void startSecondTest(String[] args) {
-		ArrayList<String> userInput = new ArrayList<>();
-		userInput.addAll(Arrays.asList(args));
+	public void startSecondTest() {
+		ArrayList<String> input = new ArrayList<>(Arrays.asList("dog", "2", "true", "3.5"));
 		p.addPositionalArgument("pet");
 		p.addPositionalArgument("number");
 		p.addPositionalArgument("rainy");
 		p.addPositionalArgument("bathrooms");
-		p.parse(userInput);
+		p.parse(input);
 	}
 	
-	public String getLength() {
-		return p.getPositionalArgumentValue("length");
-	}
-	
-	public String getWidth() {
-		return p.getPositionalArgumentValue("width");
-	}
-	
-	public String getHeight() {
-		return p.getPositionalArgumentValue("height");
-	}
-	
-	public String getPet() {
-		return p.getPositionalArgumentValue("pet");
-	}
-	
-	public String getNumber() {
-		return p.getPositionalArgumentValue("number");
-	}
-	
-	public String getRainy() {
-		return p.getPositionalArgumentValue("rainy");
-	}
-	
-	public String getBathrooms() {
-		return p.getPositionalArgumentValue("bathrooms");
-	}
+    public String getLengths() {
+        return Integer.toString((int) p.getValue("length", 0));
+    }
+
+    public String getWidths() {
+        return Integer.toString((int) p.getValue("width", 0));
+    }
+
+    public String getHeights() {
+        return Integer.toString((int) p.getValue("height", 0));
+    }
+    
+    public String getPet() {
+        return p.getValue("pet", 0);
+    }
+    
+    public String getNumber() {
+        return Integer.toString((int) p.getValue("number", 0));
+    }
+    
+    public String getRainy() {
+        return Boolean.toString((boolean) p.getValue("rainy", 0));
+    }
+    
+    public String getBathrooms() {
+        return Float.toString((float) p.getValue("bathrooms", 0));
+    }
 }
