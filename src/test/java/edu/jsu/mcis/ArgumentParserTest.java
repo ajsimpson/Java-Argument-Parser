@@ -10,12 +10,10 @@ import edu.jsu.mcis.*;
 public class ArgumentParserTest {
 
 	private ArgumentParser p;
-	private XMLEditor xmle;
 	
 	@Before
 	public void startUp() {
 		p = new ArgumentParser();
-		xmle = new XMLEditor();
 	}
 	
 	@Test

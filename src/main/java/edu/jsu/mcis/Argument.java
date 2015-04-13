@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Argument {
 
 	protected String name = "";
- 	protected String value = "";
 	protected String info = "";
 	protected Datatype type = Datatype.STRING;
 	protected enum Datatype {STRING, FLOAT, INTEGER, BOOLEAN};
