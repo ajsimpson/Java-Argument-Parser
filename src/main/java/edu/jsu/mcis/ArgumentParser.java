@@ -136,6 +136,24 @@ public class ArgumentParser {
 	/**
 	*
 	*/
+	public void replacePositionalValue(String name, int index, String value) {
+        PositionalArgument temp = new PositionalArgument(name);
+        temp = positionalArguments.get(name);
+		temp.replaceValue(value, index);
+	}
+	
+	/**
+	*
+	*/
+	public void replaceNamedValue(String name, int index, String value) {
+        NamedArgument temp = new NamedArgument(name);
+        temp = namedArguments.get(name);
+		temp.replaceValue(value, index);
+	}
+	
+	/**
+	*
+	*/
 	public String getPositionalArgumentValue(String name, int v) {
         PositionalArgument temp = new PositionalArgument(name);
         temp = positionalArguments.get(name);
@@ -623,7 +641,7 @@ public class ArgumentParser {
 			}
 		}
 		if(missingRequiredArguments != "") {
-			throw new InvalidArgumentException("\nUsage: Java VolumeCalculator length width height\nVolumeCalculator.Java: error: Missing required argument(s): " + missingRequiredArguments);
+			throw new RequiredArgumentException("\nUsage: Java VolumeCalculator length width height\nVolumeCalculator.Java: error: Missing required argument(s): " + missingRequiredArguments);
 		}
 	}
 

@@ -4,8 +4,12 @@
 		<name>length</name>
 		<values>
 			<value>7</value>
+			<value>5</value>
 		</values>
-		<type>String</type>
+		<restrictedValues>
+			<restrictedValue>5</restrictedValue>
+		</restrictedValues>
+		<type>integer</type>
 		<description></description>
 	</argument>
 	<argument type = "named">

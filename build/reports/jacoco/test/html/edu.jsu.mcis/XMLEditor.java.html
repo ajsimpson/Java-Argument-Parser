@@ -33,11 +33,11 @@ import org.xml.sax.SAXException;
 				}
 <span class="fc" id="L34">				writer.write(&quot;\t\t&lt;/values&gt;\n&quot;);</span>
 <span class="pc bpc" id="L35" title="1 of 2 branches missed.">				if(p.hasPositionalRestrictedValues(name)) {</span>
-<span class="nc" id="L36">					writer.write(&quot;\t\t&lt;restrictedValues&gt;\n&quot;);</span>
-<span class="nc bnc" id="L37" title="All 2 branches missed.">					for(int i=0; i&lt;p.getNumberOfPositionalRestrictedValues(name); i++) {</span>
-<span class="nc" id="L38">						writer.write(&quot;\t\t\t&lt;restrictedValue&gt;&quot; + temp.restrictedValues.get(i) + &quot;&lt;/restrictedValue&gt;\n&quot;);</span>
+<span class="fc" id="L36">					writer.write(&quot;\t\t&lt;restrictedValues&gt;\n&quot;);</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">					for(int i=0; i&lt;p.getNumberOfPositionalRestrictedValues(name); i++) {</span>
+<span class="fc" id="L38">						writer.write(&quot;\t\t\t&lt;restrictedValue&gt;&quot; + temp.restrictedValues.get(i) + &quot;&lt;/restrictedValue&gt;\n&quot;);</span>
 					}
-<span class="nc" id="L40">					writer.write(&quot;\t\t&lt;/restrictedValues&gt;\n&quot;);</span>
+<span class="fc" id="L40">					writer.write(&quot;\t\t&lt;/restrictedValues&gt;\n&quot;);</span>
 				}
 <span class="fc" id="L42">				writer.write(&quot;\t\t&lt;type&gt;&quot; + p.typeToString(p.getPositionalArgumentType(name)) + &quot;&lt;/type&gt;\n&quot;);</span>
 <span class="fc" id="L43">				writer.write(&quot;\t\t&lt;description&gt;&quot; + p.getPositionalArgumentDescription(name) + &quot;&lt;/description&gt;\n&quot;);</span>
@@ -98,11 +98,11 @@ import org.xml.sax.SAXException;
 <span class="fc" id="L98">							eValues.add(argumentValues.item(k).getTextContent());</span>
 						}
 <span class="pc bpc" id="L100" title="1 of 2 branches missed.">						if(p.hasPositionalRestrictedValues(eName)) {</span>
-<span class="nc" id="L101">							ArrayList&lt;String&gt; eRestrictedValues = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L102">							NodeList restrictedValues = e.getElementsByTagName(&quot;restrictedValue&quot;);</span>
-<span class="nc bnc" id="L103" title="All 2 branches missed.">							for (int k=0; k&lt;restrictedValues.getLength(); k++) {</span>
-<span class="nc" id="L104">								System.out.println(&quot;Positional restricted value: &quot; + restrictedValues.item(k).getTextContent()); //DEMO</span>
-<span class="nc" id="L105">								eRestrictedValues.add(restrictedValues.item(k).getTextContent());</span>
+<span class="fc" id="L101">							ArrayList&lt;String&gt; eRestrictedValues = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L102">							NodeList restrictedValues = e.getElementsByTagName(&quot;restrictedValue&quot;);</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">							for (int k=0; k&lt;restrictedValues.getLength(); k++) {</span>
+<span class="fc" id="L104">								System.out.println(&quot;Positional restricted value: &quot; + restrictedValues.item(k).getTextContent()); //DEMO</span>
+<span class="fc" id="L105">								eRestrictedValues.add(restrictedValues.item(k).getTextContent());</span>
 							}
 						}
 <span class="fc" id="L108">						String eType = e.getElementsByTagName(&quot;type&quot;).item(0).getTextContent();</span>
@@ -141,8 +141,8 @@ import org.xml.sax.SAXException;
 					}
 				}
 			}
-<span class="nc" id="L144">		} catch(SAXException | ParserConfigurationException | IOException e) {</span>
-<span class="nc" id="L145">			throw new FileErrorException(&quot;File not found!&quot;+e);</span>
+<span class="fc" id="L144">		} catch(SAXException | ParserConfigurationException | IOException e) {</span>
+<span class="fc" id="L145">			throw new FileErrorException(&quot;File not found!&quot;+e);</span>
 <span class="fc" id="L146">		}</span>
 <span class="fc" id="L147">		return p;</span>
 	}

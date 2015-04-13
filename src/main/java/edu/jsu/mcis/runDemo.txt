@@ -1,2 +1,0 @@
-javac -cp .;../build/libs/myjar.jar MyFile.java
-java -cp .;../build/libs/myjar.jar MyFile

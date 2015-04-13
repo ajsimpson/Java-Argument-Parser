@@ -1,16 +1,18 @@
-!"Positional argument name: length
-!Positional argument value: 7
-!"Positional argument type: String
-!$Positional argument description: 
+$"Positional argument name: length
+$Positional argument value: 7
+$Positional argument value: 5
+$ Positional restricted value: 5
+$#Positional argument type: integer
+$$Positional argument description: 
 
-!Named argument name: color
-!Named argument value: red
-!Named argument value: blue
-!Named restricted value: red
-!Named restricted value: blue
-!Named argument type: String
-!8Named argument description: color's value is a string.
-!Named argument required: true
-!Named argument group: group1
-!
+$Named argument name: color
+$Named argument value: red
+$Named argument value: blue
+$Named restricted value: red
+$Named restricted value: blue
+$Named argument type: String
+$8Named argument description: color's value is a string.
+$Named argument required: true
+$Named argument group: group1
+$
 

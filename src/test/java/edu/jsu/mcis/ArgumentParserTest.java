@@ -53,7 +53,7 @@ public class ArgumentParserTest {
 		p.addPositionalArgumentValue("cat", "grey", Argument.Datatype.STRING);
 		p.addPositionalArgumentValue("rain", "true", Argument.Datatype.BOOLEAN);
 		assertEquals(7, p.getValue("length", 0));
-		//assertEquals(5.2, p.getValue("width", 0)); //FAILS
+		assertEquals(5.2f, p.getValue("width", 0));
 		assertEquals("grey", p.getValue("cat", 0));
 		assertEquals(true, p.getValue("rain", 0));
 	}
@@ -69,9 +69,26 @@ public class ArgumentParserTest {
 		p.addNamedArgumentValue("cat", "grey", Argument.Datatype.STRING);
 		p.addNamedArgumentValue("rain", "true", Argument.Datatype.BOOLEAN);
 		assertEquals(7, p.getValue("length", 0));
-		//assertEquals(5.2, p.getValue("width", 0)); //FAILS
+		assertEquals(5.2f, p.getValue("width", 0));
 		assertEquals("grey", p.getValue("cat", 0));
 		assertEquals(true, p.getValue("rain", 0));
+	}
+	
+	@Test
+	public void testReplaceValues() {
+		p.addPositionalArgument("length");
+		p.addNamedArgument("color");
+		p.addPositionalArgumentValue("length", "7", Argument.Datatype.INTEGER);
+		p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
+		p.replacePositionalValue("length", 0, "5");
+		p.replaceNamedValue("color", 0, "blue");
+		assertEquals("5", p.getPositionalArgumentValue("length", 0));
+		assertEquals("blue", p.getNamedArgumentValue("color", 0));
+	}
+	
+	@Test (expected = UnknownArgumentException.class)
+	public void testGetValueWithInvalidInput() {
+		p.getValue("cheese", 0);
 	}
 	
 	@Test
@@ -218,7 +235,7 @@ public class ArgumentParserTest {
 	}
 	
 	@Test
-	public void testCheckForShortNameRequired() {
+	public void testCheckForShortNameRequired() { //MISSED BY JACOCO?
 		p.addPositionalArgument("length");
 		p.addPositionalArgument("width");
 		p.addPositionalArgument("height");
@@ -233,7 +250,7 @@ public class ArgumentParserTest {
 		p.parse(userInput);
 	}
 	
-	@Test (expected = InvalidArgumentException.class)
+	@Test (expected = RequiredArgumentException.class)
 	public void testMissingRequired() {
 		p.addPositionalArgument("length");
 		p.addPositionalArgument("width");
@@ -327,7 +344,7 @@ public class ArgumentParserTest {
 		p.parse(userInput);
 	}
 	
-	@Test (expected = InvalidArgumentException.class) //PASSES, YET MISSED BY JACOCO
+	@Test (expected = InvalidArgumentException.class) //MISSED BY JACOCO?
 	public void testInvalidArgumentException() {
 		p.addPositionalArgument("length");
 		p.addPositionalArgument("width");
@@ -418,14 +435,16 @@ public class ArgumentParserTest {
 	
 	@Test
 	public void testWriteAndReadArgumentsToFile() {
+		p.addPositionalArgument("length");
         p.addNamedArgument("color");
+		p.addPositionalArgumentValue("length", "7", Argument.Datatype.INTEGER);
         p.addNamedArgumentValue("color", "red", Argument.Datatype.STRING);
 		p.addNamedArgumentDescription("color", "color's value is a string.");
 		p.addNamedRestrictedValue("color", "blue");
+		p.addPositionalRestrictedValue("length", "5");
 		p.setRequired("color");
 		p.createGroup("group1");
 		p.addToGroup("group1", "color");
-		p.addPositionalArgument("length");
 		ArrayList<String> userInput = new ArrayList<>();
 		userInput.add("7");
 		userInput.add("--color");
@@ -435,7 +454,18 @@ public class ArgumentParserTest {
 		XMLEditor.loadFromXML("src/test/java/edu/jsu/mcis/XMLTest.xml", p);
 		assertEquals("length", p.positionalArguments.get("length").getName());
 		assertEquals("color", p.namedArguments.get("color").getName());
-		//assertEquals("blue", p.getNamedRestrictedValues("color").contains("blue"));
-		//assertEquals("red", p.getValue("color"));
+		assert(p.getNamedRestrictedValues("color").contains("blue"));
+	}
+	
+	
+	@Test (expected = FileErrorException.class)
+	public void testLoadFromXMLError() {
+		XMLEditor.loadFromXML("doesNotExist.xml", p);
+	}
+	
+	//@Test (expected = FileErrorException.class)
+	public void testSaveToXMLError() {
+		
+		XMLEditor.saveToXML("src/test/java/edu/jsu/mcis/XMLTest.xml", p);
 	}
 }
