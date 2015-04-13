@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.jsu.mcis.ArgumentParserTest" tests="40" skipped="0" failures="0" errors="0" timestamp="2015-04-13T17:17:25" hostname="Andrew" time="0.093">
+  <properties/>
+  <testcase name="testUnknownArgumentException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetPositionalValueAsString" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetNamedValueAsString" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetNamedArgumentDataType" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testMissingArgumentException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetPositionalArgumentDataType" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="getGroupName" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testAddNamedRestrictedValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testCreateGroup" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testAddUnknownArgumentToGroup" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testNamedArgumentIsPresent" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testAddToGroup" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetPositionalArgumentNames" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetNamedArgumentNames" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testShortNamedArgumentIsPresent" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetNamedArgumentValues" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testMissingRequired" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testTypeToString" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testRequired" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testShowHelp" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetRestrictedValues" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testIsGrouped" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetNumberOfRestrictedValues" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testShortNameInput" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetRequiredArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetNamedArgumentDescription" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testPositionalHasRestrictedValues" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testMutualExclusionException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testInvalidArgumentException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetPositionalArgumentDescription" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testNamedHasRestrictedValues" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testWriteAndReadArgumentsToFile" classname="edu.jsu.mcis.ArgumentParserTest" time="0.062"/>
+  <testcase name="testGetValues" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetUnknownShortName" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testSetFlag" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testAddPositionalRestrictedValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetPositionalArgumentValues" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testUnrecognisedArgumentException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testRestrictedValueException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testCheckForShortNameRequired" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <system-out><![CDATA[Positional argument name: length
+Positional argument value: 7
+Positional argument type: String
+Positional argument description: 
+
+Named argument name: color
+Named argument value: red
+Named argument value: blue
+Named restricted value: red
+Named restricted value: blue
+Named argument type: String
+Named argument description: color's value is a string.
+Named argument required: true
+Named argument group: group1
+
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

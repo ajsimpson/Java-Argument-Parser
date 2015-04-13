@@ -32,6 +32,9 @@ jacocoTestReport {
 
 test {
     systemProperties 'property': 'value'
+    beforeTest{ descr ->
+        logger.warn("Starting Test ${descr.className} : ${descr.name}")
+     }
 }
 
 uploadArchives {

@@ -2,25 +2,18 @@
 <arguments>
 	<argument type = "positional">
 		<name>length</name>
-		<value>7</value>
+		<values>
+			<value>7</value>
+		</values>
 		<type>String</type>
-		<description>How long an object is.</description>
-	</argument>
-	<argument type = "positional">
-		<name>width</name>
-		<value>5</value>
-		<type>String</type>
-		<description>How wide an object is.</description>
-	</argument>
-	<argument type = "positional">
-		<name>height</name>
-		<value>2</value>
-		<type>String</type>
-		<description>How tall an object is.</description>
+		<description></description>
 	</argument>
 	<argument type = "named">
 		<name>color</name>
-		<value>blue</value>
+		<values>
+			<value>red</value>
+			<value>blue</value>
+		</values>
 		<restrictedValues>
 			<restrictedValue>red</restrictedValue>
 			<restrictedValue>blue</restrictedValue>
@@ -29,19 +22,5 @@
 		<description>color's value is a string.</description>
 		<group>group1</group>
 		<required>true</required>
-	</argument>
-	<argument type = "named">
-		<name>weight</name>
-		<value>178.9</value>
-		<type>float</type>
-		<description>weight's value is a float.</description>
-		<required>false</required>
-	</argument>
-	<argument type = "named">
-		<name>age</name>
-		<value>34</value>
-		<type>integer</type>
-		<description>age's value is an integer.</description>
-		<required>false</required>
 	</argument>
 </arguments>
