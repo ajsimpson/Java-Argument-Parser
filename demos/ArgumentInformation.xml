@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arguments>
+	<argument type = "positional">
+		<name>length</name>
+		<values>
+			<value>7</value>
+		</values>
+		<type>String</type>
+		<description>How long an object is.</description>
+	</argument>
+	<argument type = "positional">
+		<name>width</name>
+		<values>
+			<value>5</value>
+		</values>
+		<type>String</type>
+		<description>How wide an object is.</description>
+	</argument>
+	<argument type = "positional">
+		<name>height</name>
+		<values>
+			<value>2</value>
+		</values>
+		<type>String</type>
+		<description>How tall an object is.</description>
+	</argument>
+	<argument type = "named">
+		<name>color</name>
+		<values>
+			<value>red</value>
+			<value>blue</value>
+		</values>
+		<restrictedValues>
+			<restrictedValue>red</restrictedValue>
+			<restrictedValue>blue</restrictedValue>
+		</restrictedValues>
+		<type>String</type>
+		<description>color's value is a string.</description>
+		<group>group1</group>
+		<required>true</required>
+	</argument>
+	<argument type = "named">
+		<name>weight</name>
+		<values>
+			<value>160.5</value>
+			<value>209.1</value>
+		</values>
+		<type>float</type>
+		<description>weight's value is a float.</description>
+		<required>false</required>
+	</argument>
+	<argument type = "named">
+		<name>age</name>
+		<values>
+			<value>22</value>
+			<value>99</value>
+		</values>
+		<type>integer</type>
+		<description>age's value is an integer.</description>
+		<required>false</required>
+	</argument>
+</arguments>

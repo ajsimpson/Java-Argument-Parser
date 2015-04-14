@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 public class Argument {
 
+	public enum Datatype {STRING, FLOAT, INTEGER, BOOLEAN};
+	
 	protected String name = "";
 	protected String info = "";
 	protected Datatype type = Datatype.STRING;
-	protected enum Datatype {STRING, FLOAT, INTEGER, BOOLEAN};
 	protected boolean containsRestrictedValues = false;
 	protected ArrayList<String> restrictedValues = new ArrayList<>();
 	protected boolean required = false;

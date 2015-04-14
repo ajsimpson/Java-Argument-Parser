@@ -432,7 +432,7 @@ public class ArgumentParserTest {
 	}
 	
 	@Test
-	public void testWriteAndReadArgumentsToFile() {
+	public void testWriteAndReadArgumentsToXML() {
 		p.addPositionalArgument("length");
         p.addNamedArgument("color");
 		p.addPositionalArgumentValue("length", "7", Argument.Datatype.INTEGER);
