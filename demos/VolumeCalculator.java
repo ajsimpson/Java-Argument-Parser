@@ -31,8 +31,7 @@ public class VolumeCalculator {
         p.addNamedArgumentValue("weight", "160.5", Argument.Datatype.FLOAT);
 		p.addNamedArgumentDescription("weight", "weight's value is a float.");
 		
-		/////////////////////////////////////////////////////////////////////////////////////////
-		
+		//DEMO
 		System.out.println("\nArgument values before command line input:\n");
 		
 		System.out.println("color:");
@@ -71,16 +70,13 @@ public class VolumeCalculator {
 		XMLEditor.saveToXML("ArgumentInformation.xml", p);
 		System.out.println("\nLoading from XML...\n");
 		XMLEditor.loadFromXML("ArgumentInformation.xml", p);
-		
-		////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		//p.parse(userInput);
+		//DEMO
 		
         float length = Float.parseFloat(p.getPositionalArgumentValue("length", 0));
         float width =  Float.parseFloat(p.getPositionalArgumentValue("width", 0));
         float height = Float.parseFloat(p.getPositionalArgumentValue("height", 0));
 
         float volume = length * width * height;
-        System.out.println("\nThe volume is " + volume);
+        System.out.println("The volume is " + volume);
     }
 }
